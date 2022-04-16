@@ -25,7 +25,7 @@ else
     exit
 fi
 
-echo "Path to the dxf2gcode source in your home directory e.g. Downloads/source"
+echo "Enter path to the dxf2gcode source in your home directory e.g. Downloads/source"
 read SRC
 HOME="$(getent passwd $USER | awk -F ':' '{print $6}')"
 path=${HOME}/$SRC
@@ -66,7 +66,15 @@ sudo python3 ./st-setup.py install
 echo "dxf2gcode was successfully installed."
 echo "You can start it now with ${RED}dxf2gcode${NC} in the console."
 echo "If you want, you can create a starter on the desktop with command: dxf2gcode %f"
-sleep 10
+
+echo "Should I delete the "$path" directory (y/n)?"
+read answer
+if echo "$answer" | grep -iq "^y" ;then
+    sudo rm -rf $path
+else
+    exit
+fi
+
 
 
 
