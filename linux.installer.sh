@@ -8,6 +8,8 @@ echo "#     by Daniel Luginbuehl      #"
 echo "#          (c) 2022             #"
 echo "#################################"
 echo ""
+echo "Support: https://www.ltspiceusers.ch/#dxf2gcode.68"
+echo ""
 echo ""
 RED='\033[0;31m'
 NC='\033[0m'
