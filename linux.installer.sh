@@ -31,7 +31,6 @@ read SRC
 HOME="$(getent passwd $USER | awk -F ':' '{print $6}')"
 path=${HOME}/$SRC
 echo "I work in the directory "$path
-#echo "Your password is "$PASSWORD
 echo "Is that correct (y/n)?"
 read answer
 if echo "$answer" | grep -iq "^y" ;then
@@ -39,6 +38,8 @@ if echo "$answer" | grep -iq "^y" ;then
 else
     exit
 fi
+
+cd $path
 
 sudo apt-get update
 sudo apt-get install -y dos2unix
@@ -52,8 +53,6 @@ sudo apt-get install -y qtcreator pyqt5-dev-tools
 sudo apt-get install -y poppler-utils
 sudo apt-get install -y pstoedit
 
-
-cd $path
 chmod +x make_tr.py
 chmod +x make_py_uic.py
 
