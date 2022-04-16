@@ -2,7 +2,7 @@
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V1.0 #"
+echo "# dxf2gcode Install Script V1.1 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#          (c) 2022             #"
@@ -62,6 +62,12 @@ dos2unix make_py_uic.py
 ./make_py_uic.py
 python3 ./st-setup.py build
 sudo python3 ./st-setup.py install
+
+cd /usr/share
+sudo mkdir dxf2gcode
+cd dxf2gcode
+sudo mkdir i18n
+sudo cp $path/i18n/*.qm /usr/share/dxf2gcode/i18n
 
 echo "dxf2gcode was successfully installed."
 echo "You can start it now with ${RED}dxf2gcode${NC} in the console."
