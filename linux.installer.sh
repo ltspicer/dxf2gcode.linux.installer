@@ -13,6 +13,7 @@ echo ""
 echo ""
 RED='\033[0;31m'
 NC='\033[0m'
+set -e
 echo "First download dxf2gcode here:"
 echo "${RED}https://sourceforge.net/projects/dxf2gcode/files/latest/download${NC}"
 echo "and ${RED}unzip${NC}."
@@ -64,9 +65,9 @@ python3 ./st-setup.py build
 sudo python3 ./st-setup.py install
 
 cd /usr/share
-sudo mkdir dxf2gcode
+sudo mkdir -p dxf2gcode
 cd dxf2gcode
-sudo mkdir i18n
+sudo mkdir -p i18n
 sudo cp $path/i18n/*.qm /usr/share/dxf2gcode/i18n
 
 echo "dxf2gcode was successfully installed."
