@@ -13,6 +13,17 @@ echo ""
 echo ""
 RED='\033[0;31m'
 NC='\033[0m'
+
+if ! hash python3; then
+    echo "python3 is not installed"
+    exit 1
+fi
+ver=$(python3 -V 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1\2/')
+if [ "$ver" -lt "37" ]; then
+    echo "This script requires python 3.7 or greater"
+    exit
+fi
+
 set -e
 echo "First download dxf2gcode here:"
 echo "${RED}https://sourceforge.net/projects/dxf2gcode/files/latest/download${NC}"
