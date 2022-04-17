@@ -13,4 +13,6 @@ Then follow the instructions. The script will install all necessary packages and
 Python 3.7 or higher is required. Is checked by the script.
 This script is tested on Linux Mint 20.3 mate and Lubuntu 20.04.4
 
+Let me know if something doesn't work.
+
 Support: https://www.ltspiceusers.ch/#dxf2gcode.68
