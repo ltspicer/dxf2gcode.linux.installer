@@ -17,6 +17,8 @@ Let me know if something doesn't work.
 
 Support: https://www.ltspiceusers.ch/#dxf2gcode.68
 
+
+Latest news:
 ATM Debian Bullseye not work!
 
 Could not find a version that satisfies the requirement PyQt5-Qt5>=5.15.2 (from pyqt5) (from versions: )
