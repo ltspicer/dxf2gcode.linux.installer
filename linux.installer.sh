@@ -2,7 +2,7 @@
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V1.1 #"
+echo "# dxf2gcode Install Script V1.3 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#          (c) 2022             #"
@@ -16,7 +16,7 @@ NC='\033[0m'
 
 if ! hash python3; then
     echo "python3 is not installed"
-    exit 1
+    exit
 fi
 ver=$(python3 -V 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1\2/')
 if [ "$ver" -lt "37" ]; then
@@ -80,9 +80,9 @@ cd dxf2gcode
 sudo mkdir -p i18n
 sudo cp $path/i18n/*.qm /usr/share/dxf2gcode/i18n
 
-echo "dxf2gcode was successfully installed."
+echo "${RED}dxf2gcode was successfully installed.${NC}"
 echo "You can start it now with ${RED}dxf2gcode${NC} in the console."
-echo "If you want, you can create a starter on the desktop with command: dxf2gcode %f"
+echo "If you want, you can create a starter on the desktop. Use command ${RED}dxf2gcode %f${NC} inside the starter."
 
 echo "Should I delete the "$path" directory (y/n)?"
 read answer
