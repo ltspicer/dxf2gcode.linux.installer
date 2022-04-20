@@ -1,5 +1,5 @@
 #################################
-# dxf2gcode Install Script V1.3 #
+# dxf2gcode Install Script V1.4 #
 #     for Debian based OS       #
 #     by Daniel Luginbuehl      #
 #          (c) 2022             #
@@ -17,9 +17,23 @@ Let me know if something doesn't work.
 
 Support: https://www.ltspiceusers.ch/#dxf2gcode.68
 
-
-Latest news:
-ATM Debian Bullseye not work!
+If error (e.g. Debian 11):
 
 Could not find a version that satisfies the requirement PyQt5-Qt5>=5.15.2 (from pyqt5) (from versions: )
 No matching distribution found for PyQt5-Qt5>=5.15.2 (from pyqt5)
+
+replace the line 58
+
+pip3 install --user pyqt5
+
+with
+
+pip3 install --user PyQt5==5.12.2
+
+and comment line 27
+
+set -e
+
+like
+
+#set -e

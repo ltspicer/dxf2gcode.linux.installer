@@ -2,7 +2,7 @@
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V1.3 #"
+echo "# dxf2gcode Install Script V1.4 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#          (c) 2022             #"
@@ -24,7 +24,7 @@ if [ "$ver" -lt "37" ]; then
     exit
 fi
 
-set -e
+set -e     # Comment for Debian 11
 echo "First download dxf2gcode here:"
 echo "${RED}https://sourceforge.net/projects/dxf2gcode/files/latest/download${NC}"
 echo "and ${RED}unzip${NC}."
@@ -55,7 +55,7 @@ cd $path
 sudo apt-get update
 sudo apt-get install -y dos2unix
 sudo apt-get install -y python3-pip
-pip3 install --user pyqt5
+pip3 install --user pyqt5     # pip3 install --user PyQt5==5.12.2    # for Debian 11
 sudo apt-get install -y python3-pyqt5  
 sudo apt-get install -y pyqt5-dev-tools
 sudo apt-get install -y qttools5-dev-tools
