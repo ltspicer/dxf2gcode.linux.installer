@@ -1,5 +1,5 @@
 #################################
-# dxf2gcode Install Script V1.4 #
+# dxf2gcode Install Script V1.5 #
 #     for Debian based OS       #
 #     by Daniel Luginbuehl      #
 #          (c) 2022             #
@@ -11,29 +11,9 @@ or double-click and select "run in terminal".
 Then follow the instructions. The script will install all necessary packages and dxf2gcode automatically.
 
 Python 3.7 or higher is required. Is checked by the script.
-This script is tested on Linux Mint 20.3 mate and Lubuntu 20.04.4
+This script is tested on Debian 10 & 11 with Gnome, Linux Mint 20.3 mate and Lubuntu 20.04.4
 
 Let me know if something doesn't work.
 
 Support: https://www.ltspiceusers.ch/#dxf2gcode.68
 
-If error (e.g. Debian 11):
-
-Could not find a version that satisfies the requirement PyQt5-Qt5>=5.15.2 (from pyqt5) (from versions: )
-No matching distribution found for PyQt5-Qt5>=5.15.2 (from pyqt5)
-
-replace the line 58
-
-pip3 install --user pyqt5
-
-with
-
-pip3 install --user PyQt5==5.12.2
-
-and comment line 27
-
-set -e
-
-like
-
-#set -e

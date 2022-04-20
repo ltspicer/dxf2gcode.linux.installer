@@ -2,7 +2,7 @@
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V1.4 #"
+echo "# dxf2gcode Install Script V1.5 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#          (c) 2022             #"
@@ -24,7 +24,7 @@ if [ "$ver" -lt "37" ]; then
     exit
 fi
 
-set -e     # Comment for Debian 11
+set -e
 echo "First download dxf2gcode here:"
 echo "${RED}https://sourceforge.net/projects/dxf2gcode/files/latest/download${NC}"
 echo "and ${RED}unzip${NC}."
@@ -55,11 +55,26 @@ cd $path
 sudo apt-get update
 sudo apt-get install -y dos2unix
 sudo apt-get install -y python3-pip
-pip3 install --user pyqt5     # pip3 install --user PyQt5==5.12.2    # for Debian 11
+
+#pip3 install --user pyqt5 > PyQt5==5.12.2 for Debian 11
+
+set +e
+
+echo "**** pip3 install --user PyQt5"
+pip3 install --user pyqt5
+retVal=$?
+if [ $retVal -ne 0 ]; then
+    echo "**** pip3 install --user PyQt5==5.12.2"
+    pip3 install --user PyQt5==5.12.2
+fi
+
+
+set -e
+
 sudo apt-get install -y python3-pyqt5  
 sudo apt-get install -y pyqt5-dev-tools
 sudo apt-get install -y qttools5-dev-tools
-sudo apt-get install -y python-opengl
+sudo apt-get install -y python3-opengl
 sudo apt-get install -y qtcreator pyqt5-dev-tools
 sudo apt-get install -y poppler-utils
 sudo apt-get install -y pstoedit
@@ -67,6 +82,7 @@ sudo apt-get install -y pstoedit
 chmod +x make_tr.py
 chmod +x make_py_uic.py
 
+set +e
 dos2unix make_tr.py
 ./make_tr.py
 dos2unix make_py_uic.py
@@ -74,6 +90,7 @@ dos2unix make_py_uic.py
 python3 ./st-setup.py build
 sudo python3 ./st-setup.py install
 
+set -e
 cd /usr/share
 sudo mkdir -p dxf2gcode
 cd dxf2gcode
