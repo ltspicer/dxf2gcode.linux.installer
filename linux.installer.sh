@@ -20,7 +20,7 @@ if ! hash python3; then
 fi
 ver=$(python3 -V 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1\2/')
 if [ "$ver" -lt "37" ]; then
-    echo "This script requires python 3.7 or greater"
+    echo "This script requires python 3.7 or higher"
     exit
 fi
 
@@ -68,7 +68,6 @@ if [ $retVal -ne 0 ]; then
     pip3 install --user PyQt5==5.12.2
 fi
 
-
 set -e
 
 sudo apt-get install -y python3-pyqt5  
@@ -108,7 +107,3 @@ if echo "$answer" | grep -iq "^y" ;then
 else
     exit
 fi
-
-
-
-
