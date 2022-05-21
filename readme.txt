@@ -21,3 +21,5 @@ Support: https://www.ltspiceusers.ch/#dxf2gcode.68
 
 Download dxf2gcode: https://sourceforge.net/projects/dxf2gcode/files/latest/download
 
+Unfortunately is the installation of Python3.7.3 or higher on Debian 9 (Wheezy) almost impossible.
+Many LinuxCNC have Debian Wheezy :(
