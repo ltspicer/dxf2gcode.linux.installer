@@ -11,7 +11,7 @@ or double-click and select "run in terminal".
 Then follow the instructions. The script will install all necessary packages and dxf2gcode automatically.
 
 Python 3.7 or higher is required. Is checked by the script.
-This script is tested on Debian 10 & 11 with Gnome, Linux Mint 20.3 mate and Lubuntu 20.04.4
+This script is tested on Debian 10 & 11 with Gnome, Linux Mint 20.3 mate and Lubuntu 20.04.4 (LXDE)
 
 Let me know if something doesn't work.
 
