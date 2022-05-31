@@ -20,7 +20,7 @@ if ! hash python3; then
 fi
 ver=$(python3 -V 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1\2/')
 if [ "$ver" -lt "37" ]; then
-    echo "This script requires python 3.7 or higher"
+    echo "This script requires python 3.7 or greater"
     exit
 fi
 
@@ -37,7 +37,7 @@ else
     exit
 fi
 
-echo "Enter path to the dxf2gcode source in your home directory e.g. Downloads/source"
+echo "Enter path to the dxf2gcode source in your home directory e.g. Downloads/source (without / at the beginning and end!)"
 read SRC
 HOME="$(getent passwd $USER | awk -F ':' '{print $6}')"
 path=${HOME}/$SRC
@@ -67,6 +67,7 @@ if [ $retVal -ne 0 ]; then
     echo "**** pip3 install --user PyQt5==5.12.2"
     pip3 install --user PyQt5==5.12.2
 fi
+
 
 set -e
 
