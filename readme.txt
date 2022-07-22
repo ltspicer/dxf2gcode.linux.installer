@@ -8,6 +8,8 @@
 Just start in the console with:
 ./linux.installer.sh
 or double-click and select "run in terminal".
+Do not start with root privileges!
+
 Then follow the instructions. The script will install all necessary packages and dxf2gcode automatically.
 
 Python 3.7 or higher is required. This is checked by the script.
