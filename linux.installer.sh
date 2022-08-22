@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 source_url=https://sourceforge.net/projects/dxf2gcode/files/dxf2gcode-20220226_RC1.zip/download
 echo ""
