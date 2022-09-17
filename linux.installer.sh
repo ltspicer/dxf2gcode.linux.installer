@@ -2,7 +2,7 @@
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V1.6 #"
+echo "# dxf2gcode Install Script V1.7 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#          (c) 2022             #"
@@ -13,15 +13,48 @@ echo ""
 echo ""
 RED='\033[0;31m'
 NC='\033[0m'
+pipversion="pip3"
+pyversion="python3"
 
 if ! hash python3; then
     echo "python3 is not installed"
     exit
 fi
+
 ver=$(python3 -V | sed 's/.* 3.//' | sed 's/\.[[:digit:]]\+//')
-if [ "$ver" -lt "7" ]; then
-    echo "This script requires python 3.7 or higher"
+
+if [ "$ver" -lt "7" ] || [ -z "$ver" ]; then
+    echo "This script requires python 3.7 or greater"
     exit
+fi
+
+sudo apt-get update
+
+if [ "$ver" -eq "10" ] && ! hash python3.9; then
+    echo "dxf2gcode works not proper with Python 3.10!"
+    echo "Should I install Python 3.9 (y/n)?"
+    read answer
+    if echo "$answer" | grep -iq "^y" ;then
+        echo ""
+    else
+        exit
+    fi
+
+    # Install Python 3.9
+    sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev -y
+    cd /tmp
+    sudo rm -rf Python-3.9.7
+    wget https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tgz
+    tar -xvf Python-3.9.7.tgz
+    cd Python-3.9.7/
+    ./configure --enable-optimizations
+    make
+    sudo make altinstall
+    pipversion="pip3.9"
+    pyversion="python3.9"
+    cd ..
+    sudo rm -rf Python-3.9.7
+    rm Python-3.9.7.tgz
 fi
 
 set -e
@@ -52,7 +85,6 @@ fi
 
 cd $path
 
-sudo apt-get update
 sudo apt-get install -y dos2unix
 sudo apt-get install -y python3-pip
 
@@ -61,12 +93,12 @@ sudo apt-get install -y python3-pip
 set +e
 
 echo "**** pip3 install --user PyQt5"
-pip3 install --user pyqt5
+$pipversion install --user pyqt5
 retVal=$?
 if [ $retVal -ne 0 ]; then
     set -e
     echo "**** I try: pip3 install --user PyQt5==5.12.2"
-    pip3 install --user PyQt5==5.12.2
+    $pipversion install --user PyQt5==5.12.2
 fi
 
 
@@ -88,8 +120,8 @@ dos2unix make_tr.py
 ./make_tr.py
 dos2unix make_py_uic.py
 ./make_py_uic.py
-python3 ./st-setup.py build
-sudo python3 ./st-setup.py install
+$pyversion ./st-setup.py build
+sudo $pyversion ./st-setup.py install
 
 set -e
 cd /usr/share
