@@ -25,10 +25,10 @@ if [ "$ver" -lt "7" ]; then
 fi
 
 set -e
-echo "First download dxf2gcode here (edit the following link for developer version):"
-echo "${RED}https://sourceforge.net/projects/dxf2gcode/files/latest/download${NC}"
-echo "and ${RED}unzip${NC}."
-
+echo "First download the newest version of dxf2gcode here:"
+echo "${RED}https://sourceforge.net/projects/dxf2gcode/files/latest/download${NC} and unzip!"
+echo "Or download developer version:"
+echo "${RED}https://sourceforge.net/p/dxf2gcode/sourcecode/ci/develop/tree${NC} (source directory)"
 echo "Are you ready (y/n)?"
 read answer
 if echo "$answer" | grep -iq "^y" ;then
