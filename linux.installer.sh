@@ -64,7 +64,7 @@ echo "**** pip3 install --user PyQt5"
 pip3 install --user pyqt5
 retVal=$?
 if [ $retVal -ne 0 ]; then
-    echo "**** pip3 install --user PyQt5==5.12.2"
+    echo "**** I try: pip3 install --user PyQt5==5.12.2"
     pip3 install --user PyQt5==5.12.2
 fi
 
