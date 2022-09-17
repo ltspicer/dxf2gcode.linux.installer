@@ -2,7 +2,7 @@
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V1.5 #"
+echo "# dxf2gcode Install Script V1.6 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#          (c) 2022             #"
@@ -18,14 +18,14 @@ if ! hash python3; then
     echo "python3 is not installed"
     exit
 fi
-ver=$(python3 -V 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1\2/')
-if [ "$ver" -lt "37" ]; then
+ver=$(python3 -V | sed 's/.* 3.//' | sed 's/\.[[:digit:]]\+//')
+if [ "$ver" -lt "7" ]; then
     echo "This script requires python 3.7 or greater"
     exit
 fi
 
 set -e
-echo "First download dxf2gcode here:"
+echo "First download dxf2gcode here (edit the following link for developer version):"
 echo "${RED}https://sourceforge.net/projects/dxf2gcode/files/latest/download${NC}"
 echo "and ${RED}unzip${NC}."
 
