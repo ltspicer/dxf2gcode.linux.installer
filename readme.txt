@@ -24,5 +24,6 @@ Download dxf2gcode: https://sourceforge.net/projects/dxf2gcode/files/latest/down
 Unfortunately is the installation of Python3.7.3 or higher on Debian 9 (Wheezy) almost impossible.
 Many LinuxCNC computers have Debian Wheezy :(
 
+ATM dxf2gcode works not properly with Python 3.10. The script check this and ask for install Python 3.9.
 
 For full automated download, use script by rugbymauri's fork in pull request here.
