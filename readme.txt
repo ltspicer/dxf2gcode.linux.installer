@@ -1,5 +1,5 @@
 #################################
-# dxf2gcode Install Script V1.6 #
+# dxf2gcode Install Script V1.7 #
 #     for Debian based OS       #
 #     by Daniel Luginbuehl      #
 #          (c) 2022             #
@@ -24,6 +24,7 @@ Download dxf2gcode: https://sourceforge.net/projects/dxf2gcode/files/latest/down
 Unfortunately is the installation of Python3.7.3 or higher on Debian 9 (Wheezy) almost impossible.
 Many LinuxCNC computers have Debian Wheezy :(
 
-ATM dxf2gcode works not properly with Python 3.10. The script check this and ask for install Python 3.9.
+Because dxf2gcode does not run properly under Python 3.10, the script can now install Python 3.9 if desired.
 
 For full automated download, use script by rugbymauri's fork in pull request here.
+
