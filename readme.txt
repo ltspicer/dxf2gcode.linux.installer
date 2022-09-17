@@ -25,4 +25,4 @@ Unfortunately is the installation of Python3.7.3 or higher on Debian 9 (Wheezy) 
 Many LinuxCNC computers have Debian Wheezy :(
 
 
-For (full) auto-download script see rugbymauri's pull request here.
+For full automated download, use script by rugbymauri's fork in pull request here.
