@@ -46,7 +46,7 @@ if [ "$ver" -eq "10" ] && ! hash python3.9; then
 
     # Install Python 3.9
     sudo apt-get update
-    sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev -y
+    sudo apt-get install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev -y
     cd /tmp
 
     if [ -d Python-3.9.7 ]; then
