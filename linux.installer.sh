@@ -1,8 +1,10 @@
 #!/bin/sh
 
+source_url=https://sourceforge.net/projects/dxf2gcode/files/dxf2gcode-20220226_RC1.zip/download
+
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V1.7 #"
+echo "# dxf2gcode Install Script V1.8 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#          (c) 2022             #"
@@ -43,7 +45,14 @@ if [ "$ver" -eq "10" ] && ! hash python3.9; then
     # Install Python 3.9
     sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev -y
     cd /tmp
-    sudo rm -rf Python-3.9.7
+
+    if [ -d Python-3.9.7 ]; then
+      sudo rm -rf Python-3.9.7
+    fi
+    if [ -f Python-3.9.7.tgz ]; then
+      sudo rm Python-3.9.7.tgz
+    fi
+
     wget https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tgz
     tar -xvf Python-3.9.7.tgz
     cd Python-3.9.7/
@@ -58,32 +67,57 @@ if [ "$ver" -eq "10" ] && ! hash python3.9; then
 fi
 
 set -e
-echo "First download the newest version of dxf2gcode here:"
-echo "${RED}https://sourceforge.net/projects/dxf2gcode/files/latest/download${NC} and unzip!"
-echo "Or download developer version:"
-echo "${RED}https://sourceforge.net/p/dxf2gcode/sourcecode/ci/develop/tree${NC} (source directory)"
-echo "Are you ready (y/n)?"
+
+
+echo "Do you want to install the latest stable (y/n)?"
 read answer
 if echo "$answer" | grep -iq "^y" ;then
+    echo "dxf2gcode will be automatically downloaded and installed"
     echo ""
-else
-    exit
-fi
-
-echo "Enter path to the dxf2gcode source in your home directory e.g. Downloads/source (without / at the beginning and end!)"
-read SRC
-HOME="$(getent passwd $USER | awk -F ':' '{print $6}')"
-path=${HOME}/$SRC
-echo "I work in the directory "$path
-echo "Is that correct (y/n)?"
-read answer
-if echo "$answer" | grep -iq "^y" ;then
+    echo "${RED}${source_url}${NC}"
     echo ""
-else
-    exit
-fi
+    echo "Are you ready (y/n)?"
+    read answer
+    if echo "$answer" | grep -iq "^y" ;then
+        echo ""
+    else
+        exit
+    fi
 
-cd $path
+    if [ -d /tmp/dxf2gcode-latest ]; then
+      sudo rm -rf /tmp/dxf2gcode-latest
+    fi
+
+    mkdir /tmp/dxf2gcode-latest
+    wget -O /tmp/dxf2gcode-latest/dxf2gcode-latest.zip ${source_url}
+    unzip /tmp/dxf2gcode-latest/dxf2gcode-latest.zip -d /tmp/dxf2gcode-latest/
+    path=/tmp/dxf2gcode-latest/source
+    cd $path
+
+else
+    echo "First download the desired version of dxf2gcode here:"
+    echo "${RED}https://sourceforge.net/p/dxf2gcode/sourcecode/ci/develop/tree${NC} (source directory)"
+    echo "Are you ready (y/n)?"
+    read answer
+    if echo "$answer" | grep -iq "^y" ;then
+        echo ""
+    else
+        exit
+    fi
+
+    echo "Enter path to the dxf2gcode source in your home directory e.g. Downloads/source (without / at the beginning and end!)"
+    read SRC
+    HOME="$(getent passwd $USER | awk -F ':' '{print $6}')"
+    path=${HOME}/$SRC
+    echo "I work in the directory "$path
+    echo "Is that correct (y/n)?"
+    read answer
+    if echo "$answer" | grep -iq "^y" ;then
+        cd $path
+    else
+        exit
+    fi
+fi
 
 sudo apt-get install -y dos2unix
 sudo apt-get install -y python3-pip
