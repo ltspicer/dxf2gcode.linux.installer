@@ -34,8 +34,6 @@ if [ "$ver" -lt "7" ] || [ -z "$ver" ]; then
     exit
 fi
 
-sudo apt-get update
-
 if [ "$ver" -eq "10" ] && ! hash python3.9; then
     echo "dxf2gcode works not properly with Python 3.10!"
     echo "Should I install Python 3.9 (y/n)?"
@@ -47,6 +45,7 @@ if [ "$ver" -eq "10" ] && ! hash python3.9; then
     fi
 
     # Install Python 3.9
+    sudo apt-get update
     sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev -y
     cd /tmp
 
@@ -123,6 +122,7 @@ else
     fi
 fi
 
+sudo apt-get update
 sudo apt-get install -y dos2unix
 sudo apt-get install -y python3-pip
 
