@@ -72,7 +72,8 @@ fi
 
 set -e
 
-echo "Do you want to install the latest stable (y/n)?"
+echo "Do you want automatically download and install the latest stable (y/n)?"
+echo "(Python 3.10 will remain installed)"
 read answer
 if echo "$answer" | grep -iq "^y" ;then
     echo "dxf2gcode will be automatically downloaded and installed"
@@ -98,7 +99,7 @@ if echo "$answer" | grep -iq "^y" ;then
     cd $path
 
 else
-    echo "First download the desired version of dxf2gcode here:"
+    echo "First download the desired version of dxf2gcode ${RED}into your home directory${NC}."
     echo "${RED}https://sourceforge.net/p/dxf2gcode/sourcecode/ci/develop/tree${NC} (source directory)"
     echo "Are you ready (y/n)?"
     read answer
