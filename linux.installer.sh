@@ -23,6 +23,10 @@ if ! hash python3; then
     exit
 fi
 
+echo "Installed Python version:"
+python3 -V
+echo ""
+
 ver=$(python3 -V | sed 's/.* 3.//' | sed 's/\.[[:digit:]]\+//')
 
 if [ "$ver" -lt "7" ] || [ -z "$ver" ]; then
@@ -66,8 +70,8 @@ if [ "$ver" -eq "10" ] && ! hash python3.9; then
     rm Python-3.9.7.tgz
 fi
 
-set -e
 
+set -e
 
 echo "Do you want to install the latest stable (y/n)?"
 read answer
@@ -164,7 +168,12 @@ cd dxf2gcode
 sudo mkdir -p i18n
 sudo cp $path/i18n/*.qm /usr/share/dxf2gcode/i18n
 
+echo ""
 echo "${RED}dxf2gcode was successfully installed.${NC}"
+echo "${RED}dxf2gcode was successfully installed.${NC}"
+echo "${RED}dxf2gcode was successfully installed.${NC}"
+echo "${RED}dxf2gcode was successfully installed.${NC}"
+echo ""
 echo "You can start it now with ${RED}dxf2gcode${NC} in the console."
 echo "If you want, you can create a starter on the desktop. Use command ${RED}dxf2gcode %f${NC} inside the starter."
 
