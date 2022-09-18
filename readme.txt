@@ -25,4 +25,5 @@ Unfortunately is the installation of Python3.7.3 or higher on Debian 9 (Wheezy) 
 Many LinuxCNC computers have Debian Wheezy :(
 
 Because dxf2gcode does not run properly under Python 3.10, the script can now install Python 3.9 if desired.
+Python 3.10 remains installed.
 
