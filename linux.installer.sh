@@ -30,7 +30,7 @@ echo ""
 ver=$(python3 -V | sed 's/.* 3.//' | sed 's/\.[[:digit:]]\+//')
 
 if [ "$ver" -lt "7" ] || [ -z "$ver" ]; then
-    echo "This script requires python 3.7 or greater"
+    echo "This script requires python 3.7 or higher"
     exit
 fi
 
