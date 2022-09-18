@@ -37,6 +37,7 @@ fi
 if [ "$ver" -eq "10" ] && ! hash python3.9; then
     echo "dxf2gcode works not properly with Python 3.10!"
     echo "Should I install Python 3.9 (y/n)?"
+    echo "(Python 3.10 will remain installed)"
     read answer
     if echo "$answer" | grep -iq "^y" ;then
         echo ""
@@ -73,7 +74,6 @@ fi
 set -e
 
 echo "Do you want automatically download and install the latest stable (y/n)?"
-echo "(Python 3.10 will remain installed)"
 read answer
 if echo "$answer" | grep -iq "^y" ;then
     echo "dxf2gcode will be automatically downloaded and installed"
