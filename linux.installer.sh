@@ -68,6 +68,11 @@ if [ "$ver" -eq "10" ] && ! hash python3.9; then
     cd ..
     sudo rm -rf Python-3.9.7
     rm Python-3.9.7.tgz
+    if ! hash python3.9; then
+        echo "Something didn't work out there. Install Python 3.9 manually."
+        echo "https://linuxhint.com/install-python-ubuntu-22-04/"
+        exit
+    fi
 fi
 
 
