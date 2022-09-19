@@ -73,7 +73,7 @@ if [ "$ver" -eq "10" ] && ! hash python3.9; then
     if ! hash python3.9; then
         echo "Something didn't work out there. Install Python 3.9 manually."
         echo "https://linuxhint.com/install-python-ubuntu-22-04/"
-        sleep 8
+        sleep 20
         exit
     fi
 fi
