@@ -4,7 +4,7 @@ source_url=https://sourceforge.net/projects/dxf2gcode/files/dxf2gcode-20220226_R
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V1.8 #"
+echo "# dxf2gcode Install Script V1.9 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#          (c) 2022             #"
