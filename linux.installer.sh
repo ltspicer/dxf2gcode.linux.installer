@@ -20,6 +20,7 @@ pyversion="python3"
 
 if ! hash python3; then
     echo "python3 is not installed"
+    sleep 8
     exit
 fi
 
@@ -31,6 +32,7 @@ ver=$(python3 -V | sed 's/.* 3.//' | sed 's/\.[[:digit:]]\+//')
 
 if [ "$ver" -lt "7" ] || [ -z "$ver" ]; then
     echo "This script requires python 3.7 or higher"
+    sleep 8
     exit
 fi
 
@@ -71,6 +73,7 @@ if [ "$ver" -eq "10" ] && ! hash python3.9; then
     if ! hash python3.9; then
         echo "Something didn't work out there. Install Python 3.9 manually."
         echo "https://linuxhint.com/install-python-ubuntu-22-04/"
+        sleep 8
         exit
     fi
 fi
