@@ -4,7 +4,7 @@ source_url=https://sourceforge.net/projects/dxf2gcode/files/dxf2gcode-20220226_R
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V1.9 #"
+echo "# dxf2gcode Install Script V2.0 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#          (c) 2022             #"
@@ -34,6 +34,11 @@ if [ "$ver" -lt "7" ] || [ -z "$ver" ]; then
     echo "This script requires python 3.7 or higher"
     sleep 8
     exit
+fi
+
+if [ "$ver" -eq "10" ]; then
+    pipversion="pip3.9"
+    pyversion="python3.9"
 fi
 
 if [ "$ver" -eq "10" ] && ! hash python3.9; then
