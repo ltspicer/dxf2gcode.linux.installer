@@ -27,3 +27,6 @@ Many LinuxCNC computers have Debian Wheezy :(
 Because dxf2gcode does not run properly under Python 3.10, the script can now install Python 3.9 if desired.
 Python 3.10 remains installed.
 
+See https://github.com/ltspicer/dxf2gcode
+There is a edited dxf2gcode version which runs on Python 3.10 and a customized installer.
+Please test it and give me feedback ;)
