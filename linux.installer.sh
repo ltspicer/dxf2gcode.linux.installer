@@ -4,7 +4,7 @@ source_url=https://sourceforge.net/projects/dxf2gcode/files/dxf2gcode-20220226_R
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V2.0 #"
+echo "# dxf2gcode Install Script V2.1 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#          (c) 2022             #"
@@ -17,77 +17,104 @@ RED='\033[0;31m'
 NC='\033[0m'
 pipversion="pip3"
 pyversion="python3"
+devinst=0
 
 if ! hash python3; then
     echo "python3 is not installed"
+    echo "Script ends in 8 seconds"
     sleep 8
     exit
 fi
 
 echo "Installed Python version:"
 python3 -V
+if hash python3.9; then
+    echo "and"
+    python3.9 -V
+fi    
 echo ""
 
 ver=$(python3 -V | sed 's/.* 3.//' | sed 's/\.[[:digit:]]\+//')
 
 if [ "$ver" -lt "7" ] || [ -z "$ver" ]; then
     echo "This script requires python 3.7 or higher"
+    echo "Script ends in 8 seconds"
     sleep 8
     exit
 fi
 
-if [ "$ver" -eq "10" ]; then
-    pipversion="pip3.9"
-    pyversion="python3.9"
+if [ "$ver" -eq "10" ] && hash python3.9; then
+    echo "Should I use Python 3.9 (y/n)?"
+    read answer
+    if echo "$answer" | grep -iq "^y" ;then
+	pipversion="pip3.9"
+    	pyversion="python3.9"
+    	echo "I use Python 3.9"
+    else
+    	devinst=1
+    	echo "I use Python 3.10"	
+    fi
 fi
 
 if [ "$ver" -eq "10" ] && ! hash python3.9; then
-    echo "dxf2gcode works not properly with Python 3.10!"
-    echo "Should I install Python 3.9 (y/n)?"
-    echo "(Python 3.10 will remain installed)"
+    echo "It seems that you are using Python 3.10."
+    echo "In order for dxf2gcode to run properly, the developer version must be installed."
+    echo "There are 3 options available:"					
+    echo "1   Install Python 3.9 (Python 3.10 will remain installed) and automatically download and install the latest stable"
+    echo "2   I download the developer version of dxf2gcode by self (which works with Python 3.10)."
+    echo "3   Quit installer."
     read answer
-    if echo "$answer" | grep -iq "^y" ;then
-        echo ""
+    if echo "$answer" | grep -iq "^3" ;then
+        exit
+    fi
+    if echo "$answer" | grep -iq "^1" ;then
+	# Install Python 3.9
+        pipversion="pip3.9"
+        pyversion="python3.9"
+	sudo apt-get update
+	sudo apt-get install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev -y
+	cd /tmp
+
+	if [ -d Python-3.9.7 ]; then
+	sudo rm -rf Python-3.9.7
+	fi
+	if [ -f Python-3.9.7.tgz ]; then
+	sudo rm Python-3.9.7.tgz
+	fi
+
+	wget https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tgz
+	tar -xvf Python-3.9.7.tgz
+	cd Python-3.9.7/
+	./configure --enable-optimizations
+	make
+	sudo make altinstall
+	pipversion="pip3.9"
+	pyversion="python3.9"
+	cd ..
+	sudo rm -rf Python-3.9.7
+	rm Python-3.9.7.tgz
+	if ! hash python3.9; then
+	echo "Something didn't work out there. Install Python 3.9 manually."
+	echo "https://linuxhint.com/install-python-ubuntu-22-04/"
+	echo "Script ends in 20 seconds"
+	sleep 20
+	exit
+	fi
     else
-        exit
-    fi
-
-    # Install Python 3.9
-    sudo apt-get update
-    sudo apt-get install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev -y
-    cd /tmp
-
-    if [ -d Python-3.9.7 ]; then
-      sudo rm -rf Python-3.9.7
-    fi
-    if [ -f Python-3.9.7.tgz ]; then
-      sudo rm Python-3.9.7.tgz
-    fi
-
-    wget https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tgz
-    tar -xvf Python-3.9.7.tgz
-    cd Python-3.9.7/
-    ./configure --enable-optimizations
-    make
-    sudo make altinstall
-    pipversion="pip3.9"
-    pyversion="python3.9"
-    cd ..
-    sudo rm -rf Python-3.9.7
-    rm Python-3.9.7.tgz
-    if ! hash python3.9; then
-        echo "Something didn't work out there. Install Python 3.9 manually."
-        echo "https://linuxhint.com/install-python-ubuntu-22-04/"
-        sleep 20
-        exit
+	devinst=1
     fi
 fi
 
 
 set -e
 
-echo "Do you want automatically download and install the latest stable (y/n)?"
-read answer
+if [ $devinst -eq 0 ] ;then
+	echo "Do you want automatically download and install the latest stable (y/n)?"
+	read answer
+else
+	answer="n"
+fi
+
 if echo "$answer" | grep -iq "^y" ;then
     echo "dxf2gcode will be automatically downloaded and installed"
     echo ""
@@ -112,8 +139,10 @@ if echo "$answer" | grep -iq "^y" ;then
     cd $path
 
 else
-    echo "First download the desired version of dxf2gcode ${RED}into your home directory${NC}."
+    echo "First download the desired version of dxf2gcode ${RED}into your home directory${NC}. Developer version is needed for Python 3.10!"
     echo "${RED}https://sourceforge.net/p/dxf2gcode/sourcecode/ci/develop/tree${NC} (source directory)"
+    echo "or"
+    echo "${RED}https://github.com/ltspicer/dxf2gcode${NC}"
     echo "Are you ready (y/n)?"
     read answer
     if echo "$answer" | grep -iq "^y" ;then
