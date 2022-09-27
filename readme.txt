@@ -1,5 +1,5 @@
 #################################
-# dxf2gcode Install Script V2.1 #
+# dxf2gcode Install Script V2.2 #
 #     for Debian based OS       #
 #     by Daniel Luginbuehl      #
 #          (c) 2022             #
@@ -30,4 +30,7 @@ or use the developer version of dxf2gcode.
 
 See https://github.com/ltspicer/dxf2gcode
 There is a edited dxf2gcode version which runs on Python 3.10.
+The script can download and install this automatically.
+
+
 Please test it and give me feedback ;)
