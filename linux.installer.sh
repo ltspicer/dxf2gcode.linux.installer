@@ -97,9 +97,9 @@ if [ "$ver" -eq "10" ] && ! hash python3.9; then
 	        echo "Script ends in 20 seconds"
 	        sleep 20
 	        exit
-        else
-    	    devinst=1
         fi
+    else
+	    devinst=1
     fi
 fi
 
