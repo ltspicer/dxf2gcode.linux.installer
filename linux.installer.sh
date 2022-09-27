@@ -61,7 +61,7 @@ if [ "$ver" -eq "10" ] && ! hash python3.9; then
     echo "In order for dxf2gcode to run properly, the developer version must be installed."
     echo "There are 3 options available:"					
     echo "1   Install Python 3.9 (Python 3.10 will remain installed) and automatically download and install the latest stable"
-    echo "2   I download the developer version of dxf2gcode by self (which works with Python 3.10)."
+    echo "2   I want to use the developer version (this works with Python 3.10)."
     echo "3   Quit installer."
     read answer
     if echo "$answer" | grep -iq "^3" ;then
