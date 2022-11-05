@@ -107,10 +107,10 @@ fi
 set -e
 
 if [ $devinst -eq 0 ] ;then
-	echo "Do you want automatically download and install the latest stable (y/n)?"
-	read answer
+    echo "Do you want automatically download and install the latest stable (y/n)?"
+    read answer
 else
-	answer="n"
+    answer="n"
 fi
 
 if echo "$answer" | grep -iq "^y" ;then
@@ -137,8 +137,8 @@ if echo "$answer" | grep -iq "^y" ;then
     cd $path
 
 else
-	echo "Do you want automatically download and install the developer version (y/n)?"
-	read answer
+    echo "Do you want automatically download and install the developer version (y/n)?"
+    read answer
     if echo "$answer" | grep -iq "^y" ;then
         if [ -d /tmp/dxf2gcode-latest ]; then
           sudo rm -rf /tmp/dxf2gcode-latest
