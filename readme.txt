@@ -1,5 +1,5 @@
 #################################
-# dxf2gcode Install Script V2.3 #
+# dxf2gcode Install Script V2.4 #
 #     for Debian based OS       #
 #     by Daniel Luginbuehl      #
 #          (c) 2023             #
