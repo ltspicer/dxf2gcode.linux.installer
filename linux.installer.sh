@@ -1,13 +1,14 @@
 #!/bin/sh
 
 source_url=https://sourceforge.net/projects/dxf2gcode/files/dxf2gcode-20220226_RC1.zip/download
+source_dev_url=https://sourceforge.net/projects/dxf2gcode/files/Development/dxf2gcode.zip/download
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V2.4 #"
+echo "# dxf2gcode Install Script V2.5 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
-echo "#          (c) 2022             #"
+echo "#          (c) 2023             #"
 echo "#################################"
 echo ""
 echo "Support: https://www.ltspiceusers.ch/#dxf2gcode.68"
@@ -28,10 +29,6 @@ fi
 
 echo "Installed Python version:"
 python3 -V
-#if hash python3.9; then
-#    echo "and"
-#    python3.9 -V
-#fi    
 echo ""
 
 ver=$(python3 -V | sed 's/.* 3.//' | sed 's/\.[[:digit:]]\+//')
@@ -43,56 +40,47 @@ if [ "$ver" -lt "7" ] || [ -z "$ver" ]; then
     exit
 fi
 
-#if [ "$ver" -ge "10" ] && hash python3.9; then
-#    echo "Should I use Python 3.$ver (y/n)?"
-#    read answer
-#    if echo "$answer" | grep -iq "^n" ;then
-#	    pipversion="pip3.9"
-#    	pyversion="python3.9"
-#    	echo "I use Python 3.9"
-#    else
-#    	devinst=1
-#    	echo "I use Python 3.$ver"	
-#    fi
-#fi
-
 if [ "$ver" -ge "10" ]; then
     echo "It seems that you are using Python 3.10 or higher."
     echo "In order for dxf2gcode to run properly, the developer version must be installed."
-#    echo "There are 3 options available:"					
-#    echo "1   Install Python 3.9 (Python 3.10 will remain installed) and automatically download and install the latest stable"
-    echo "2   I want to use the developer version (this works with Python 3.10+)."
-    echo "3   Quit installer."
-    read answer
-    if echo "$answer" | grep -iq "^3" ;then
-        exit
-    fi
     devinst=1
 fi
 
-
 set -e
 
+echo "Do you want automatically download and install..."
 if [ $devinst -eq 0 ] ;then
-	echo "Do you want automatically download and install the latest stable (y/n)?"
-	read answer
+    echo "1   ...the latest stable version"
+    echo "2   ...the developer version"
+    echo "3   Quit installer"
+    while true; do
+	    read answer
+        if echo "$answer" | grep -iq "^3" ;then
+            exit
+        fi
+        if echo "$answer" | grep -iq "^1" ;then
+            break
+        fi
+        if echo "$answer" | grep -iq "^2" ;then
+            break
+        fi
+    done
 else
-	answer="n"
+    echo "2   ...the developer version"
+    echo "3   Quit installer"
+    while true; do
+	    read answer
+        if echo "$answer" | grep -iq "^3" ;then
+            exit
+        fi
+        if echo "$answer" | grep -iq "^2" ;then
+            break
+        fi
+    done
+
 fi
 
-if echo "$answer" | grep -iq "^y" ;then
-    echo "dxf2gcode will be automatically downloaded and installed"
-    echo ""
-    echo "${RED}${source_url}${NC}"
-    echo ""
-    echo "Are you ready (y/n)?"
-    read answer
-    if echo "$answer" | grep -iq "^y" ;then
-        echo ""
-    else
-        exit
-    fi
-
+if echo "$answer" | grep -iq "^1" ;then
     if [ -d /tmp/dxf2gcode-latest ]; then
       sudo rm -rf /tmp/dxf2gcode-latest
     fi
@@ -104,39 +92,42 @@ if echo "$answer" | grep -iq "^y" ;then
     cd $path
 
 else
-	echo "Do you want automatically download and install the developer version (y/n)?"
+	echo "Do you want automatically download the developer version (y/n)?"
 	read answer
     if echo "$answer" | grep -iq "^y" ;then
         if [ -d /tmp/dxf2gcode-latest ]; then
           sudo rm -rf /tmp/dxf2gcode-latest
         fi
-
         mkdir /tmp/dxf2gcode-latest
-        wget -O /tmp/dxf2gcode-latest/master.zip https://github.com/ltspicer/dxf2gcode/archive/master.zip
-        unzip /tmp/dxf2gcode-latest/master.zip -d /tmp/dxf2gcode-latest/
-        path=/tmp/dxf2gcode-latest/dxf2gcode-main
+
+#### Download from sourceforge
+        wget -O /tmp/dxf2gcode-latest/dxf2gcode-latest.zip ${source_dev_url}
+        unzip /tmp/dxf2gcode-latest/dxf2gcode-latest.zip -d /tmp/dxf2gcode-latest/
+        path=/tmp/dxf2gcode-latest/source
+
+#### Download from github
+#        wget -O /tmp/dxf2gcode-latest/master.zip https://github.com/ltspicer/dxf2gcode/archive/master.zip
+#        unzip /tmp/dxf2gcode-latest/master.zip -d /tmp/dxf2gcode-latest/
+#        path=/tmp/dxf2gcode-latest/dxf2gcode-main
+
         cd $path
         devinst=0
     else
-        echo "First download the desired version of dxf2gcode ${RED}into your home directory${NC}. Developer version is needed for Python 3.10!"
+        echo "Ok. First download the desired version of dxf2gcode ${RED}into your home directory${NC} (developer version is needed for Python 3.10+)."
         echo "Download links:"
         echo ""
         echo "${RED}https://sourceforge.net/p/dxf2gcode/sourcecode/ci/develop/tree${NC} (source directory)"
         echo "or"
         echo "${RED}https://github.com/ltspicer/dxf2gcode${NC}"
         echo ""
-        echo "Are you ready (y/n)?"
-        read answer
-        if echo "$answer" | grep -iq "^y" ;then
-            echo ""
-        else
-            exit
-        fi
         while true; do
             echo "Enter path to the dxf2gcode source in your home directory e.g. Downloads/source (without / at the beginning and end!)"
             read SRC
             if [ -z "$SRC" ] ;then
                 SRC="_"
+            fi
+            if echo "$SRC" | grep -iq "^q" ;then
+                exit
             fi
             HOME="$(getent passwd $USER | awk -F ':' '{print $6}')"
             path=${HOME}/$SRC
@@ -159,14 +150,29 @@ else
     fi
 fi
 
+echo ""
+echo "I will now install. Are you ready (y/n)?"
+read answer
+if echo "$answer" | grep -iq "^y" ;then
+    echo ""
+else
+    exit
+fi
+
 sudo apt-get update
 sudo apt-get install -y dos2unix
 sudo apt-get install -y python3-pip
-
-#pip3 install --user pyqt5 > PyQt5==5.12.2 for Debian 11
+sudo apt-get install -y python3-pyqt5  
+sudo apt-get install -y pyqt5-dev-tools
+sudo apt-get install -y qttools5-dev-tools
+sudo apt-get install -y python3-opengl
+sudo apt-get install -y qtcreator pyqt5-dev-tools
+sudo apt-get install -y poppler-utils
+sudo apt-get install -y pstoedit
 
 set +e
 
+#pip3 install --user pyqt5 > PyQt5==5.12.2 for Debian 11
 echo "**** pip3 install --user PyQt5"
 $pipversion install --user pyqt5
 retVal=$?
@@ -175,17 +181,6 @@ if [ $retVal -ne 0 ]; then
     echo "**** I try: pip3 install --user PyQt5==5.12.2"
     $pipversion install --user PyQt5==5.12.2
 fi
-
-
-set -e
-
-sudo apt-get install -y python3-pyqt5  
-sudo apt-get install -y pyqt5-dev-tools
-sudo apt-get install -y qttools5-dev-tools
-sudo apt-get install -y python3-opengl
-sudo apt-get install -y qtcreator pyqt5-dev-tools
-sudo apt-get install -y poppler-utils
-sudo apt-get install -y pstoedit
 
 chmod +x make_tr.py
 chmod +x make_py_uic.py
