@@ -4,7 +4,7 @@ source_url=https://sourceforge.net/projects/dxf2gcode/files/dxf2gcode-20220226_R
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V2.2 #"
+echo "# dxf2gcode Install Script V2.3 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#          (c) 2022             #"
@@ -44,9 +44,9 @@ if [ "$ver" -lt "7" ] || [ -z "$ver" ]; then
 fi
 
 if [ "$ver" -eq "10" ] && hash python3.9; then
-    echo "Should I use Python 3.9 (y/n)?"
+    echo "Should I use Python 3.10 (y/n)?"
     read answer
-    if echo "$answer" | grep -iq "^y" ;then
+    if echo "$answer" | grep -iq "^n" ;then
 	    pipversion="pip3.9"
     	pyversion="python3.9"
     	echo "I use Python 3.9"
@@ -59,58 +59,58 @@ fi
 if [ "$ver" -eq "10" ] && ! hash python3.9; then
     echo "It seems that you are using Python 3.10."
     echo "In order for dxf2gcode to run properly, the developer version must be installed."
-    echo "There are 3 options available:"					
-    echo "1   Install Python 3.9 (Python 3.10 will remain installed) and automatically download and install the latest stable"
+#    echo "There are 3 options available:"					
+#    echo "1   Install Python 3.9 (Python 3.10 will remain installed) and automatically download and install the latest stable"
     echo "2   I want to use the developer version (this works with Python 3.10)."
     echo "3   Quit installer."
     read answer
     if echo "$answer" | grep -iq "^3" ;then
         exit
     fi
-    if echo "$answer" | grep -iq "^1" ;then
-	    # Install Python 3.9
-	    sudo apt-get update
-	    sudo apt-get install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev -y
-	    cd /tmp
-
-	    if [ -d Python-3.9.7 ]; then
-	        sudo rm -rf Python-3.9.7
-	    fi
-	    if [ -f Python-3.9.7.tgz ]; then
-	        sudo rm Python-3.9.7.tgz
-	    fi
-
-	    wget https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tgz
-	    tar -xvf Python-3.9.7.tgz
-	    cd Python-3.9.7/
-	    ./configure --enable-optimizations
-	    make
-	    sudo make altinstall
-	    pipversion="pip3.9"
-	    pyversion="python3.9"
-	    cd ..
-	    sudo rm -rf Python-3.9.7
-	    rm Python-3.9.7.tgz
-	    if ! hash python3.9; then
-	        echo "Something didn't work out there. Install Python 3.9 manually."
-	        echo "https://linuxhint.com/install-python-ubuntu-22-04/"
-	        echo "Script ends in 20 seconds"
-	        sleep 20
-	        exit
-        fi
-    else
-	    devinst=1
-    fi
+#    if echo "$answer" | grep -iq "^1" ;then
+#	    # Install Python 3.9
+#	    sudo apt-get update
+#	    sudo apt-get install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev -y
+#	    cd /tmp
+#
+#	    if [ -d Python-3.9.7 ]; then
+#	        sudo rm -rf Python-3.9.7
+#	    fi
+#	    if [ -f Python-3.9.7.tgz ]; then
+#	        sudo rm Python-3.9.7.tgz
+#	    fi
+#
+#	    wget https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tgz
+#	    tar -xvf Python-3.9.7.tgz
+#	    cd Python-3.9.7/
+#	    ./configure --enable-optimizations
+#	    make
+#	    sudo make altinstall
+#	    pipversion="pip3.9"
+#	    pyversion="python3.9"
+#	    cd ..
+#	    sudo rm -rf Python-3.9.7
+#	    rm Python-3.9.7.tgz
+#	    if ! hash python3.9; then
+#	        echo "Something didn't work out there. Install Python 3.9 manually."
+#	        echo "https://linuxhint.com/install-python-ubuntu-22-04/"
+#	        echo "Script ends in 20 seconds"
+#	        sleep 20
+#	        exit
+#        fi
+#    else
+    devinst=1
+#    fi
 fi
 
 
 set -e
 
 if [ $devinst -eq 0 ] ;then
-    echo "Do you want automatically download and install the latest stable (y/n)?"
-    read answer
+	echo "Do you want automatically download and install the latest stable (y/n)?"
+	read answer
 else
-    answer="n"
+	answer="n"
 fi
 
 if echo "$answer" | grep -iq "^y" ;then
@@ -137,8 +137,8 @@ if echo "$answer" | grep -iq "^y" ;then
     cd $path
 
 else
-    echo "Do you want automatically download and install the developer version (y/n)?"
-    read answer
+	echo "Do you want automatically download and install the developer version (y/n)?"
+	read answer
     if echo "$answer" | grep -iq "^y" ;then
         if [ -d /tmp/dxf2gcode-latest ]; then
           sudo rm -rf /tmp/dxf2gcode-latest
