@@ -2,10 +2,11 @@
 
 source_url=https://sourceforge.net/projects/dxf2gcode/files/dxf2gcode-20220226_RC1.zip/download
 source_dev_url=https://sourceforge.net/projects/dxf2gcode/files/Development/dxf2gcode.zip/download
+#source_dev_url=https://sourceforge.net/projects/dxf2gcode/files/Development/DXF2GCODE-2023.2.6-source.zip/download
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V2.5 #"
+echo "# dxf2gcode Install Script V2.6 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#          (c) 2023             #"
@@ -185,7 +186,8 @@ fi
 chmod +x make_tr.py
 chmod +x make_py_uic.py
 
-set +e
+set -e
+
 dos2unix make_tr.py
 ./make_tr.py
 dos2unix make_py_uic.py
@@ -194,11 +196,13 @@ $pyversion ./st-setup.py build
 sudo $pyversion ./st-setup.py install
 
 set -e
+
 cd /usr/share
 sudo mkdir -p dxf2gcode
 cd dxf2gcode
 sudo mkdir -p i18n
 sudo cp $path/i18n/*.qm /usr/share/dxf2gcode/i18n
+sudo chmod -R o+r /usr/share/dxf2gcode/i18n
 
 echo ""
 echo "${RED}dxf2gcode was successfully installed.${NC}"
