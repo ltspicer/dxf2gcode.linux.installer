@@ -133,7 +133,7 @@ else
             fi
             HOME="$(getent passwd $USER | awk -F ':' '{print $6}')"
             path=${HOME}/$SRC
-            echo "I work in the directory "$path
+            echo "I will work in the directory "$path
             echo "Is that correct (y/n)? (q = Quit installer)"
             read answer
             if echo "$answer" | grep -iq "^q" ;then
