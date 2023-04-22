@@ -154,12 +154,16 @@ fi
 
 echo ""
 echo "I will now install. Are you ready (y/n)?"
-read answer
-if echo "$answer" | grep -iq "^y" ;then
-    echo ""
-else
-    exit
-fi
+while true; do
+    read answer
+    if echo "$answer" | grep -iq "^y" ;then
+        echo ""
+        break
+    fi
+    if echo "$answer" | grep -iq "^n" ;then
+        exit
+    fi
+done
 
 wget -O ${HOME}/DXF2GCODE.ico ${source_icon_url}
 
