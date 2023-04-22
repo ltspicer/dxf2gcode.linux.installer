@@ -2,11 +2,11 @@
 
 source_url=https://sourceforge.net/projects/dxf2gcode/files/dxf2gcode-20220226_RC1.zip/download
 source_dev_url=https://sourceforge.net/projects/dxf2gcode/files/Development/dxf2gcode.zip/download
-#source_dev_url=https://sourceforge.net/projects/dxf2gcode/files/Development/DXF2GCODE-2023.2.6-source.zip/download
+source_icon_url=https://sourceforge.net/projects/dxf2gcode/files/Development/DXF2GCODE.ico/download
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V2.6 #"
+echo "# dxf2gcode Install Script V2.7 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#   webmaster@ltspiceusers.ch   #"
@@ -21,6 +21,7 @@ NC='\033[0m'
 pipversion="pip3"
 pyversion="python3"
 devinst=0
+HOME="$(getent passwd $USER | awk -F ':' '{print $6}')"
 
 if ! hash python3; then
     echo "python3 is not installed"
@@ -106,6 +107,7 @@ else
         wget -O /tmp/dxf2gcode-latest/dxf2gcode-latest.zip ${source_dev_url}
         unzip /tmp/dxf2gcode-latest/dxf2gcode-latest.zip -d /tmp/dxf2gcode-latest/
         path=/tmp/dxf2gcode-latest/source
+        wget -O ${HOME}/DXF2GCODE.ico ${source_icon_url}
 
 #### Download from github
 #        wget -O /tmp/dxf2gcode-latest/master.zip https://github.com/ltspicer/dxf2gcode/archive/master.zip
@@ -131,7 +133,6 @@ else
             if echo "$SRC" | grep -iq "^q" ;then
                 exit
             fi
-            HOME="$(getent passwd $USER | awk -F ':' '{print $6}')"
             path=${HOME}/$SRC
             echo "I will work in the directory "$path
             echo "Is that correct (y/n)? (q = Quit installer)"
@@ -213,6 +214,7 @@ echo "${RED}dxf2gcode was successfully installed.${NC}"
 echo ""
 echo "You can start it now with ${RED}dxf2gcode${NC} in the console."
 echo "If you want, you can create a starter on the desktop. Use command ${RED}dxf2gcode %f${NC} inside the starter."
+echo "The icon for the starter is stored at: ${RED}"${HOME}/DXF2GCODE.ico"${NC}"
 
 if [ $devinst -eq 1 ] ;then
     echo "Should I delete the "$path" directory (y/n)?"
