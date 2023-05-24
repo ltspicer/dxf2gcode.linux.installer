@@ -52,6 +52,8 @@ Then you have to downgrade setup tools. Enter in the terminal:
 
 pip install --upgrade --user setuptools==58.3.0
 
+Then run the installer again.
+
 
 Because official dxf2gcode does not run properly under Python 3.10+, the script ask to install the developer version of dxf2gcode.
 
