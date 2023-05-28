@@ -48,7 +48,7 @@ running egg_info
   return _normalization.best_effort_version(tagged)
 ...
 
-Then you have to downgrade setup tools. Enter in the terminal:
+Then you have to downgrade setuptools. Enter in the terminal:
 
 pip install --upgrade --user setuptools==58.3.0
 
