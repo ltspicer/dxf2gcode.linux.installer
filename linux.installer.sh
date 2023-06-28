@@ -6,7 +6,7 @@ source_icon_url=https://sourceforge.net/projects/dxf2gcode/files/Development/DXF
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V2.7 #"
+echo "# dxf2gcode Install Script V2.8 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#   webmaster@ltspiceusers.ch   #"
@@ -51,10 +51,10 @@ fi
 
 set -e
 
-echo "Do you want automatically download and install..."
+echo "Do you want install..."
 if [ $devinst -eq 0 ] ;then
     echo "1   ...the latest stable version"
-    echo "2   ...the developer version"
+    echo "2   ...a developer version"
     echo "3   Quit installer"
     while true; do
 	    read answer
@@ -69,7 +69,7 @@ if [ $devinst -eq 0 ] ;then
         fi
     done
 else
-    echo "2   ...the developer version"
+    echo "2   ...a developer version"
     echo "3   Quit installer"
     while true; do
 	    read answer
@@ -95,7 +95,7 @@ if echo "$answer" | grep -iq "^1" ;then
     cd $path
 
 else
-	echo "Do you want automatically download the developer version (y/n)?"
+	echo "Do you want automatically download the developer version? (y) ::: If you want install your own version (n)"
 	read answer
     if echo "$answer" | grep -iq "^y" ;then
         if [ -d /tmp/dxf2gcode-latest ]; then
@@ -180,14 +180,21 @@ sudo apt-get install -y pstoedit
 
 set +e
 
-#pip3 install --user pyqt5 > PyQt5==5.12.2 for Debian 11
 echo "**** pip3 install --user PyQt5"
 $pipversion install --user pyqt5
 retVal=$?
 if [ $retVal -ne 0 ]; then
-    set -e
     echo "**** I try: pip3 install --user PyQt5==5.12.2"
     $pipversion install --user PyQt5==5.12.2
+    retVal=$?
+    if [ $retVal -ne 0 ]; then
+        echo "**** I try apt install python3-pyqt5."
+        echo "${RED}**** Maybe you have to restart the script after 'sudo pip3 install setuptools==65 --break-system-packages' command!${NC}"
+        sleep 5
+        set -e
+        sudo apt install python3-pyqt5
+        sudo $pipversion install setuptools==65 --break-system-packages
+    fi    
 fi
 
 chmod +x make_tr.py

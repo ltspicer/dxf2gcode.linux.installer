@@ -1,5 +1,5 @@
 #################################
-# dxf2gcode Install Script V2.7 #
+# dxf2gcode Install Script V2.8 #
 #     for Debian based OS       #
 #     by Daniel Luginbuehl      #
 #          (c) 2023             #
@@ -11,7 +11,7 @@ or double-click and select "run in terminal". Do not start with sudo in front!
 Then follow the instructions. The script will install all necessary packages and dxf2gcode automatically.
 
 Python 3.7 or higher is required. This is checked by the script.
-The script is tested on Debian 10 & 11 with GNOME, Linux Mint 20.3 mate, 21 Cinnamon, 21.1 MATE, Xubuntu 22.04 (XFCE), Kubuntu 22.04 (KDE) and Lubuntu 20.04.4 (LXDE)
+The script is tested on Debian 10, 11 & 12 with GNOME & MATE, Linux Mint 20.3 mate, 21 Cinnamon, 21.1 MATE, Xubuntu 22.04 (XFCE), Kubuntu 22.04 (KDE) and Lubuntu 20.04.4 (LXDE)
 
 The installation is ONLY complete when the script "dxf2gcode was successfully installed." spends in red!
 
@@ -48,7 +48,7 @@ running egg_info
   return _normalization.best_effort_version(tagged)
 ...
 
-Then you have to downgrade setuptools. Enter in the terminal:
+Then you have to downgrade setup tools. Enter in the terminal:
 
 pip install --upgrade --user setuptools==58.3.0
 
