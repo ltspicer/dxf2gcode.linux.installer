@@ -51,6 +51,8 @@ running egg_info
 Then you have to downgrade setup tools. Enter in the terminal:
 
 pip install --upgrade --user setuptools==58.3.0
+if not work, then
+pip install setuptools==65 --break-system-packages
 
 Then run the installer again.
 
