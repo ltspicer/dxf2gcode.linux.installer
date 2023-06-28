@@ -95,7 +95,7 @@ if echo "$answer" | grep -iq "^1" ;then
     cd $path
 
 else
-	echo "Do you want automatically download the developer version? (y) ::: If you want install your own version (n)"
+	echo "Do you want automatically download the developer version? (y) ::: If you do want install your own version press n"
 	read answer
     if echo "$answer" | grep -iq "^y" ;then
         if [ -d /tmp/dxf2gcode-latest ]; then
@@ -192,9 +192,14 @@ if [ $retVal -ne 0 ]; then
         echo "${RED}**** Maybe you have to restart the script after 'sudo pip3 install setuptools==65 --break-system-packages' command!${NC}"
         sleep 5
         set -e
-        sudo apt install python3-pyqt5
-        sudo $pipversion install setuptools==65 --break-system-packages
+        sudo apt-get install python3-pyqt5
     fi    
+fi
+
+# If setuptools version > 65.0.0 then set to 65.0.0
+ver=$($pipversion show setuptools | grep Version | sed 's/.*: //' | sed 's/\.//g')
+if [ "$ver" -gt "6500" ] ; then
+    sudo $pipversion install setuptools==65 --break-system-packages
 fi
 
 chmod +x make_tr.py
