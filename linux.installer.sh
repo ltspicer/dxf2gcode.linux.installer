@@ -6,7 +6,7 @@ source_icon_url=https://sourceforge.net/projects/dxf2gcode/files/Development/DXF
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V2.8 #"
+echo "# dxf2gcode Install Script V2.9 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#   webmaster@ltspiceusers.ch   #"
@@ -96,60 +96,66 @@ if echo "$answer" | grep -iq "^1" ;then
 
 else
 	echo "Do you want automatically download the developer version? (y) ::: If you do want install your own version press n"
-	read answer
-    if echo "$answer" | grep -iq "^y" ;then
-        if [ -d /tmp/dxf2gcode-latest ]; then
-          sudo rm -rf /tmp/dxf2gcode-latest
+
+    while true; do
+	    read answer
+        if echo "$answer" | grep -iq "^y" ;then
+            if [ -d /tmp/dxf2gcode-latest ]; then
+              sudo rm -rf /tmp/dxf2gcode-latest
+            fi
+            mkdir /tmp/dxf2gcode-latest
+
+####    Download from sourceforge
+            wget -O /tmp/dxf2gcode-latest/dxf2gcode-latest.zip ${source_dev_url}
+            unzip /tmp/dxf2gcode-latest/dxf2gcode-latest.zip -d /tmp/dxf2gcode-latest/
+            path=/tmp/dxf2gcode-latest/source
+
+####    Download from github
+#            wget -O /tmp/dxf2gcode-latest/master.zip https://github.com/ltspicer/dxf2gcode/archive/master.zip
+#            unzip /tmp/dxf2gcode-latest/master.zip -d /tmp/dxf2gcode-latest/
+#            path=/tmp/dxf2gcode-latest/dxf2gcode-main
+
+            cd $path
+            devinst=0
+            break
         fi
-        mkdir /tmp/dxf2gcode-latest
-
-#### Download from sourceforge
-        wget -O /tmp/dxf2gcode-latest/dxf2gcode-latest.zip ${source_dev_url}
-        unzip /tmp/dxf2gcode-latest/dxf2gcode-latest.zip -d /tmp/dxf2gcode-latest/
-        path=/tmp/dxf2gcode-latest/source
-
-#### Download from github
-#        wget -O /tmp/dxf2gcode-latest/master.zip https://github.com/ltspicer/dxf2gcode/archive/master.zip
-#        unzip /tmp/dxf2gcode-latest/master.zip -d /tmp/dxf2gcode-latest/
-#        path=/tmp/dxf2gcode-latest/dxf2gcode-main
-
-        cd $path
-        devinst=0
-    else
-        echo "Ok. First download the desired version of dxf2gcode ${RED}into your home directory${NC} (developer version is needed for Python 3.10+)."
-        echo "Download links:"
-        echo ""
-        echo "${RED}https://sourceforge.net/p/dxf2gcode/sourcecode/ci/develop/tree${NC} (source directory)"
-        echo "or"
-        echo "${RED}https://github.com/ltspicer/dxf2gcode${NC}"
-        echo ""
-        while true; do
-            echo "Enter path to the dxf2gcode source in your home directory e.g. Downloads/source (without / at the beginning and end!)"
-            read SRC
-            if [ -z "$SRC" ] ;then
-                SRC="_"
-            fi
-            if echo "$SRC" | grep -iq "^q" ;then
-                exit
-            fi
-            path=${HOME}/$SRC
-            echo "I will work in the directory "$path
-            echo "Is that correct (y/n)? (q = Quit installer)"
-            read answer
-            if echo "$answer" | grep -iq "^q" ;then
-                exit
-            fi
-            if echo "$answer" | grep -iq "^y" ;then
-                if [ ! -d $path ]; then
-                    echo "This directory does not exist!"
-                else
-                    cd $path
-                    break
+        if echo "$answer" | grep -iq "^n" ;then
+            echo "Ok. First download the desired version of dxf2gcode ${RED}into your home directory${NC} (developer version is needed for Python 3.10+)."
+            echo "Download links:"
+            echo ""
+            echo "${RED}https://sourceforge.net/p/dxf2gcode/sourcecode/ci/develop/tree${NC} (source directory)"
+            echo "or"
+            echo "${RED}https://github.com/ltspicer/dxf2gcode${NC}"
+            echo ""
+            while true; do
+                echo "Enter path to the dxf2gcode source in your home directory e.g. Downloads/source (without / at the beginning and end!)"
+                read SRC
+                if [ -z "$SRC" ] ;then
+                    SRC="_"
                 fi
-            fi
-        done
-        devinst=1
-    fi
+                if echo "$SRC" | grep -iq "^q" ;then
+                    exit
+                fi
+                path=${HOME}/$SRC
+                echo "I will work in the directory "$path
+                echo "Is that correct (y/n)? (q = Quit installer)"
+                read answer
+                if echo "$answer" | grep -iq "^q" ;then
+                    exit
+                fi
+                if echo "$answer" | grep -iq "^y" ;then
+                    if [ ! -d $path ]; then
+                        echo "This directory does not exist!"
+                    else
+                        cd $path
+                        break
+                    fi
+                fi
+            done
+            devinst=1
+            break
+        fi
+    done
 fi
 
 echo ""
@@ -190,7 +196,6 @@ if [ $retVal -ne 0 ]; then
     if [ $retVal -ne 0 ]; then
         echo "**** I try apt install python3-pyqt5."
         echo "${RED}**** Maybe you have to restart the script after 'sudo pip3 install setuptools==65 --break-system-packages' command!${NC}"
-        sleep 5
         set -e
         sudo apt-get install python3-pyqt5
     fi    
@@ -198,14 +203,17 @@ fi
 
 # If setuptools version > 65.0.0 then set to 65.0.0
 ver=$($pipversion show setuptools | grep Version | sed 's/.*: //' | sed 's/\.//g')
+set -e
 if [ "$ver" -gt "6500" ] ; then
+    echo "${RED}**** Setuptools will be downgraded to 65.0.0.${NC}"
+    ver=$($pipversion show setuptools | grep Version)
+    echo "${RED}**** Current $ver${NC}"
     sudo $pipversion install setuptools==65 --break-system-packages
+    echo "${RED}**** setuptools has been downgraded to 65.0.0.${NC}"
 fi
 
 chmod +x make_tr.py
 chmod +x make_py_uic.py
-
-set -e
 
 dos2unix make_tr.py
 ./make_tr.py
