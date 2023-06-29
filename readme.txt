@@ -8,27 +8,13 @@
 Just start in the console with:
 ./linux.installer.sh
 or double-click and select "run in terminal". Do not start with sudo in front!
-Note for Debian see further below!
+In Debian, first type "su - root" and run the script there.
 Then follow the instructions. The script will install all necessary packages and dxf2gcode automatically.
 
 Python 3.7 or higher is required. This is checked by the script.
 The script is tested on Debian 10, 11 & 12 with GNOME & MATE, Linux Mint 20.3 mate, 21 Cinnamon, 21.1 MATE, Xubuntu 22.04 (XFCE), Kubuntu 22.04 (KDE) and Lubuntu 20.04.4 (LXDE)
 
 The installation is ONLY complete when the script "dxf2gcode was successfully installed." spends in red!
-
-
-With Debian, sudo must first be set up for the user:
-$ su - root
-$ visudo
-...
-# User privilege specification
-root ALL=(ALL:ALL) ALL
-user_name ALL=(ALL:ALL) ALL
-...
-Insert the 2nd line, replacing user_name with your name.
-Save and exit visudo ( nano-editor: CTRL & O , CTRL & X ).
-$ exit
-
 
 Unfortunately is the installation of Python3.7.3 or higher on Debian 9 (Wheezy) almost impossible.
 Many LinuxCNC computers have Debian Wheezy :(
