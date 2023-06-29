@@ -24,6 +24,20 @@ Download dxf2gcode: https://sourceforge.net/projects/dxf2gcode/files/latest/down
 Unfortunately is the installation of Python3.7.3 or higher on Debian 9 (Wheezy) almost impossible.
 Many LinuxCNC computers have Debian Wheezy :(
 
+
+With Debian, sudo must first be set up for the user:
+$ su - root
+$ visudo
+...
+# User privilege specification
+root ALL=(ALL:ALL) ALL
+user_name ALL=(ALL:ALL) ALL
+...
+Insert the 2nd line, replacing user_name with your name.
+Save and exit visudo ( nano-editor: CTRL & O , CTRL & X ).
+$ exit
+
+
 In some cases, the following error appears:
 
 ...
