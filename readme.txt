@@ -16,15 +16,6 @@ The script is tested on Debian 10, 11 & 12 with GNOME & MATE, Linux Mint 20.3 ma
 
 The installation is ONLY complete when the script "dxf2gcode was successfully installed." spends in red!
 
-Let me know if something doesn't work.
-
-Support: https://www.ltspiceusers.ch/#dxf2gcode.68
-
-Download dxf2gcode: https://sourceforge.net/projects/dxf2gcode/files/latest/download
-
-Unfortunately is the installation of Python3.7.3 or higher on Debian 9 (Wheezy) almost impossible.
-Many LinuxCNC computers have Debian Wheezy :(
-
 
 With Debian, sudo must first be set up for the user:
 $ su - root
@@ -37,6 +28,10 @@ user_name ALL=(ALL:ALL) ALL
 Insert the 2nd line, replacing user_name with your name.
 Save and exit visudo ( nano-editor: CTRL & O , CTRL & X ).
 $ exit
+
+
+Unfortunately is the installation of Python3.7.3 or higher on Debian 9 (Wheezy) almost impossible.
+Many LinuxCNC computers have Debian Wheezy :(
 
 
 In some cases, the following error appears:
@@ -72,7 +67,8 @@ pip install setuptools==65 --break-system-packages
 Then run the installer again.
 
 
-Because official dxf2gcode does not run properly under Python 3.10+, the script ask to install the developer version of dxf2gcode.
+Because official dxf2gcode does not run properly under Python 3.10+, the script ask to install a developer version of dxf2gcode.
+If desired, the script can download this automatically.
 
 
 Developer versions on
@@ -80,6 +76,9 @@ https://github.com/ltspicer/dxf2gcode
 or
 https://sourceforge.net/projects/dxf2gcode/files/Development/
 The script can download and install this automatically.
+
+Support: https://www.ltspiceusers.ch/#dxf2gcode.68
+Download dxf2gcode: https://sourceforge.net/projects/dxf2gcode/files/latest/download
 
 
 Please test it and give me feedback ;)
