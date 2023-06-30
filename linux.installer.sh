@@ -6,7 +6,7 @@ source_icon_url=https://sourceforge.net/projects/dxf2gcode/files/Development/DXF
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V2.9 #"
+echo "# dxf2gcode Install Script V3.0 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#   webmaster@ltspiceusers.ch   #"
@@ -16,25 +16,27 @@ echo ""
 echo "Support: https://www.ltspiceusers.ch/#dxf2gcode.68"
 echo ""
 echo ""
-RED='\033[0;31m'
-NC='\033[0m'
+
 pipversion="pip3"
 pyversion="python3"
+
+RED='\033[0;31m'
+NC='\033[0m'
 devinst=0
 HOME="$(getent passwd $USER | awk -F ':' '{print $6}')"
 
-if ! hash python3; then
-    echo "python3 is not installed"
+if ! hash $pyversion; then
+    echo "$pyversion is not installed"
     echo "Script ends in 8 seconds"
     sleep 8
     exit
 fi
 
 echo "Installed Python version:"
-python3 -V
+$pyversion -V
 echo ""
 
-ver=$(python3 -V | sed 's/.* 3.//' | sed 's/\.[[:digit:]]\+//')
+ver=$($pyversion -V | sed 's/.* 3.//' | sed 's/\.[[:digit:]]\+//')
 
 if [ "$ver" -lt "7" ] || [ -z "$ver" ]; then
     echo "This script requires python 3.7 or higher"
@@ -175,11 +177,11 @@ wget -O ${HOME}/DXF2GCODE.ico ${source_icon_url}
 
 sudo apt-get update
 sudo apt-get install -y dos2unix
-sudo apt-get install -y python3-pip
-sudo apt-get install -y python3-pyqt5  
+sudo apt-get install -y $pyversion-pip
+sudo apt-get install -y $pyversion-pyqt5  
 sudo apt-get install -y pyqt5-dev-tools
 sudo apt-get install -y qttools5-dev-tools
-sudo apt-get install -y python3-opengl
+sudo apt-get install -y $pyversion-opengl
 sudo apt-get install -y qtcreator pyqt5-dev-tools
 sudo apt-get install -y poppler-utils
 sudo apt-get install -y pstoedit
@@ -194,10 +196,10 @@ if [ $retVal -ne 0 ]; then
     $pipversion install --user PyQt5==5.12.2
     retVal=$?
     if [ $retVal -ne 0 ]; then
-        echo "**** I try apt install python3-pyqt5."
+        echo "**** I try apt install $pyversion-pyqt5."
         echo "${RED}**** Maybe you have to restart the script after 'sudo pip3 install setuptools==65 --break-system-packages' command!${NC}"
         set -e
-        sudo apt-get install python3-pyqt5
+        sudo apt-get install $pyversion-pyqt5
     fi    
 fi
 
@@ -209,7 +211,7 @@ if [ "$ver" -gt "6500" ] ; then
     ver=$($pipversion show setuptools | grep Version)
     echo "${RED}**** Current $ver${NC}"
     sudo $pipversion install setuptools==65 --break-system-packages
-    echo "${RED}**** setuptools has been downgraded to 65.0.0.${NC}"
+    echo "${RED}**** Setuptools has been downgraded to 65.0.0.${NC}"
 fi
 
 chmod +x make_tr.py
@@ -221,8 +223,6 @@ dos2unix make_py_uic.py
 ./make_py_uic.py
 $pyversion ./st-setup.py build
 sudo $pyversion ./st-setup.py install
-
-set -e
 
 cd /usr/share
 sudo mkdir -p dxf2gcode
