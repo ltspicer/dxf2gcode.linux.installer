@@ -1,9 +1,5 @@
 #!/bin/sh
 
-source_url=https://sourceforge.net/projects/dxf2gcode/files/dxf2gcode-20220226_RC1.zip/download
-source_dev_url=https://sourceforge.net/projects/dxf2gcode/files/Development/dxf2gcode.zip/download
-source_icon_url=https://sourceforge.net/projects/dxf2gcode/files/Development/DXF2GCODE.ico/download
-
 echo ""
 echo "#################################"
 echo "# dxf2gcode Install Script V3.0 #"
@@ -17,11 +13,15 @@ echo "Support: https://www.ltspiceusers.ch/#dxf2gcode.68"
 echo ""
 echo ""
 
-sourceforge=true        # Download from github: false --- Download from sourceforge: true
+source_url=https://sourceforge.net/projects/dxf2gcode/files/dxf2gcode-20220226_RC1.zip/download
+source_dev_url=https://sourceforge.net/projects/dxf2gcode/files/Development/dxf2gcode.zip/download
+source_icon_url=https://sourceforge.net/projects/dxf2gcode/files/Development/DXF2GCODE.ico/download
+sourceforge=true        # Download from github: false | Download from sourceforge: true
 pipversion="pip3"       # pip command syntax
-pyversion="python3"     # if python-is-python3 is installed, change to "python"
-aptversion="apt-get"    # old style = apt-get , new style = apt
+pyversion="python3"     # If python-is-python3 is installed, change to "python"
+aptversion="apt-get"    # Old style = apt-get | New style = apt
 
+#### Do not make any changes from here!
 RED='\033[0;31m'
 NC='\033[0m'
 devinst=0
