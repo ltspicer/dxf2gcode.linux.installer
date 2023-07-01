@@ -122,7 +122,7 @@ else
                 wget -O /tmp/dxf2gcode-latest/master.zip https://github.com/ltspicer/dxf2gcode/archive/master.zip
                 unzip /tmp/dxf2gcode-latest/master.zip -d /tmp/dxf2gcode-latest/
                 path=/tmp/dxf2gcode-latest/dxf2gcode-main
-                wget -O ${HOME}/DXF2GCODE.ico https://github.com/ltspicer/dxf2gcode.linux.installer/blob/main/DXF2GCODE.ico
+                wget -O ${HOME}/DXF2GCODE.ico https://raw.githubusercontent.com/ltspicer/dxf2gcode.linux.installer/main/DXF2GCODE.ico
             fi
 
             cd $path
