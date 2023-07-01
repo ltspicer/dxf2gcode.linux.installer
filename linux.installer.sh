@@ -115,12 +115,14 @@ else
                 wget -O /tmp/dxf2gcode-latest/dxf2gcode-latest.zip ${source_dev_url}
                 unzip /tmp/dxf2gcode-latest/dxf2gcode-latest.zip -d /tmp/dxf2gcode-latest/
                 path=/tmp/dxf2gcode-latest/source
+                wget -O ${HOME}/DXF2GCODE.ico ${source_icon_url}
             else
 ####    Download from github
                 echo "Download from GITHUB"
                 wget -O /tmp/dxf2gcode-latest/master.zip https://github.com/ltspicer/dxf2gcode/archive/master.zip
                 unzip /tmp/dxf2gcode-latest/master.zip -d /tmp/dxf2gcode-latest/
                 path=/tmp/dxf2gcode-latest/dxf2gcode-main
+                wget -O ${HOME}/DXF2GCODE.ico https://github.com/ltspicer/dxf2gcode.linux.installer/blob/main/DXF2GCODE.ico
             fi
 
             cd $path
@@ -178,8 +180,6 @@ while true; do
         exit
     fi
 done
-
-wget -O ${HOME}/DXF2GCODE.ico ${source_icon_url}
 
 sudo $aptversion update
 sudo $aptversion install -y dos2unix
