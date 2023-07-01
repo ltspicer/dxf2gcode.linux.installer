@@ -19,6 +19,7 @@ echo ""
 
 pipversion="pip3"
 pyversion="python3"
+aptversion="apt-get"    # old style = apt-get , new style = apt
 
 RED='\033[0;31m'
 NC='\033[0m'
@@ -175,16 +176,16 @@ done
 
 wget -O ${HOME}/DXF2GCODE.ico ${source_icon_url}
 
-sudo apt-get update
-sudo apt-get install -y dos2unix
-sudo apt-get install -y $pyversion-pip
-sudo apt-get install -y $pyversion-pyqt5  
-sudo apt-get install -y pyqt5-dev-tools
-sudo apt-get install -y qttools5-dev-tools
-sudo apt-get install -y $pyversion-opengl
-sudo apt-get install -y qtcreator pyqt5-dev-tools
-sudo apt-get install -y poppler-utils
-sudo apt-get install -y pstoedit
+sudo $aptversion update
+sudo $aptversion install -y dos2unix
+sudo $aptversion install -y $pyversion-pip
+sudo $aptversion install -y $pyversion-pyqt5  
+sudo $aptversion install -y pyqt5-dev-tools
+sudo $aptversion install -y qttools5-dev-tools
+sudo $aptversion install -y $pyversion-opengl
+sudo $aptversion install -y qtcreator pyqt5-dev-tools
+sudo $aptversion install -y poppler-utils
+sudo $aptversion install -y pstoedit
 
 set +e
 
@@ -196,10 +197,10 @@ if [ $retVal -ne 0 ]; then
     $pipversion install --user PyQt5==5.12.2
     retVal=$?
     if [ $retVal -ne 0 ]; then
-        echo "**** I try apt install $pyversion-pyqt5."
+        echo "**** I try $aptversion install $pyversion-pyqt5."
         echo "${RED}**** Maybe you have to restart the script after 'sudo pip3 install setuptools==65 --break-system-packages' command!${NC}"
         set -e
-        sudo apt-get install $pyversion-pyqt5
+        sudo $aptversion install $pyversion-pyqt5
     fi    
 fi
 
@@ -230,7 +231,7 @@ cd dxf2gcode
 sudo mkdir -p i18n
 sudo cp $path/i18n/*.qm /usr/share/dxf2gcode/i18n
 sudo chmod -R o+r /usr/share/dxf2gcode/i18n
-sudo apt-get autoremove
+sudo $aptversion autoremove
 
 echo ""
 echo "${RED}dxf2gcode was successfully installed.${NC}"
