@@ -230,6 +230,7 @@ cd dxf2gcode
 sudo mkdir -p i18n
 sudo cp $path/i18n/*.qm /usr/share/dxf2gcode/i18n
 sudo chmod -R o+r /usr/share/dxf2gcode/i18n
+sudo apt autoremove
 
 echo ""
 echo "${RED}dxf2gcode was successfully installed.${NC}"
