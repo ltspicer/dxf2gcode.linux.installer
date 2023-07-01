@@ -17,8 +17,9 @@ echo "Support: https://www.ltspiceusers.ch/#dxf2gcode.68"
 echo ""
 echo ""
 
-pipversion="pip3"
-pyversion="python3"
+sourceforge=true        # Download from github: false --- Download from sourceforge: true
+pipversion="pip3"       # pip command syntax
+pyversion="python3"     # if python-is-python3 is installed, change to "python"
 aptversion="apt-get"    # old style = apt-get , new style = apt
 
 RED='\033[0;31m'
@@ -109,14 +110,18 @@ else
             mkdir /tmp/dxf2gcode-latest
 
 ####    Download from sourceforge
-            wget -O /tmp/dxf2gcode-latest/dxf2gcode-latest.zip ${source_dev_url}
-            unzip /tmp/dxf2gcode-latest/dxf2gcode-latest.zip -d /tmp/dxf2gcode-latest/
-            path=/tmp/dxf2gcode-latest/source
-
+            if $sourceforge ; then
+                echo "Download from SOURCEFORGE"
+                wget -O /tmp/dxf2gcode-latest/dxf2gcode-latest.zip ${source_dev_url}
+                unzip /tmp/dxf2gcode-latest/dxf2gcode-latest.zip -d /tmp/dxf2gcode-latest/
+                path=/tmp/dxf2gcode-latest/source
+            else
 ####    Download from github
-#            wget -O /tmp/dxf2gcode-latest/master.zip https://github.com/ltspicer/dxf2gcode/archive/master.zip
-#            unzip /tmp/dxf2gcode-latest/master.zip -d /tmp/dxf2gcode-latest/
-#            path=/tmp/dxf2gcode-latest/dxf2gcode-main
+                echo "Download from GITHUB"
+                wget -O /tmp/dxf2gcode-latest/master.zip https://github.com/ltspicer/dxf2gcode/archive/master.zip
+                unzip /tmp/dxf2gcode-latest/master.zip -d /tmp/dxf2gcode-latest/
+                path=/tmp/dxf2gcode-latest/dxf2gcode-main
+            fi
 
             cd $path
             devinst=0
