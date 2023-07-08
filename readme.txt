@@ -61,7 +61,6 @@ Developer versions on
 https://github.com/ltspicer/dxf2gcode
 or
 https://sourceforge.net/projects/dxf2gcode/files/Development/
-The script can download and install this automatically.
 
 Support: https://www.ltspiceusers.ch/#dxf2gcode.68
 Download dxf2gcode: https://sourceforge.net/projects/dxf2gcode/files/latest/download
