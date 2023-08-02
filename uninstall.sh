@@ -12,19 +12,23 @@ echo ""
 echo "Support: https://www.ltspiceusers.ch/#dxf2gcode.68"
 echo ""
 echo ""
-echo "Do you want to remove the dependencies (y/n/q=quit)?"
+
+aptversion="apt-get"    # Old style = apt-get | New style = apt
+
+echo "y=yes, n=no, q=quit"
+echo "Do you also want to remove the dependencies (y/n/q)?"
 while true; do
     read answer
     if echo "$answer" | grep -iq "^y" ;then
-        sudo apt purge -y dos2unix
-#        sudo apt purge -y pip-pip
-#        sudo apt purge -y pip-pyqt5
-        sudo apt purge -y pyqt5-dev-tools
-        sudo apt purge -y qttools5-dev-tools
-#        sudo apt purge -y pip-opengl
-        sudo apt purge -y qtcreator pyqt5-dev-tools
-        sudo apt purge -y poppler-utils
-        sudo apt purge -y pstoedit
+        sudo $aptversion purge -y dos2unix
+#        sudo $aptversion purge -y pip-pip
+#        sudo $aptversion purge -y pip-pyqt5
+        sudo $aptversion purge -y pyqt5-dev-tools
+        sudo $aptversion purge -y qttools5-dev-tools
+#        sudo $aptversion purge -y pip-opengl
+        sudo $aptversion purge -y qtcreator pyqt5-dev-tools
+        sudo $aptversion purge -y poppler-utils
+        sudo $aptversion purge -y pstoedit
         break
     fi
     if echo "$answer" | grep -iq "^n" ;then
@@ -35,7 +39,7 @@ while true; do
     fi
 done
 
-echo "I will now uninstall dxf2gcode. (y/q=quit)?"
+echo "I will now uninstall dxf2gcode (y/q)?"
 while true; do
     read answer
     if echo "$answer" | grep -iq "^y" ;then
