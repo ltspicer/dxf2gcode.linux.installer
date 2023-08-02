@@ -2,7 +2,7 @@
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V3.0 #"
+echo "# dxf2gcode Install Script V3.1 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#   webmaster@ltspiceusers.ch   #"
@@ -51,6 +51,23 @@ if [ "$ver" -ge "10" ]; then
     echo "It seems that you are using Python 3.10 or higher."
     echo "In order for dxf2gcode to run properly, the developer version must be installed."
     devinst=1
+fi
+
+pip -V
+retVal=$?
+if [ $retVal -ne 0 ]; then
+    echo
+    echo "python3-pip is not installed!"
+    echo
+    echo "Debian/Ubuntu/Mint:    sudo apt install python3-pip"
+    echo "CentOS/Red Hat/Fedora: sudo dnf install --assumeyes python3-pip"
+    echo "MacOS:                 sudo easy_install pip"
+    echo "Windows:               https://www.geeksforgeeks.org/how-to-install-pip-on-windows/"
+    echo
+    echo "Window closes in 20 seconds."
+    echo "Script ends in 8 seconds"
+    sleep 8
+    exit
 fi
 
 set -e
