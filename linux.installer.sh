@@ -59,12 +59,12 @@ if [ $retVal -ne 0 ]; then
     echo
     echo "python3-pip is not installed!"
     echo
+    echo "Install with:"
     echo "Debian/Ubuntu/Mint:    sudo apt install python3-pip"
     echo "CentOS/Red Hat/Fedora: sudo dnf install --assumeyes python3-pip"
     echo "MacOS:                 sudo easy_install pip"
     echo "Windows:               https://www.geeksforgeeks.org/how-to-install-pip-on-windows/"
     echo
-    echo "Window closes in 20 seconds."
     echo "Script ends in 8 seconds"
     sleep 8
     exit
