@@ -57,10 +57,12 @@ $pipversion -V
 retVal=$?
 if [ $retVal -ne 0 ]; then
     echo
-    echo "python3-pip is not installed!"
+    echo "pip is not installed!"
     echo
     echo "Install with:"
-    echo "Debian/Ubuntu/Mint:    sudo apt install python3-pip"
+    echo "Debian/Ubuntu/Mint:    sudo $aptversion install python3-pip"
+    echo
+    echo "Non-relevant operating systems:"
     echo "CentOS/Red Hat/Fedora: sudo dnf install --assumeyes python3-pip"
     echo "MacOS:                 sudo easy_install pip"
     echo "Windows:               https://www.geeksforgeeks.org/how-to-install-pip-on-windows/"
