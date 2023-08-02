@@ -53,7 +53,7 @@ if [ "$ver" -ge "10" ]; then
     devinst=1
 fi
 
-pip -V
+$pipversion -V
 retVal=$?
 if [ $retVal -ne 0 ]; then
     echo
