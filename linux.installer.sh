@@ -2,7 +2,7 @@
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V3.1 #"
+echo "# dxf2gcode Install Script V3.2 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#   webmaster@ltspiceusers.ch   #"
@@ -115,6 +115,7 @@ if echo "$answer" | grep -iq "^1" ;then
     wget -O /tmp/dxf2gcode-latest/dxf2gcode-latest.zip ${source_url}
     unzip /tmp/dxf2gcode-latest/dxf2gcode-latest.zip -d /tmp/dxf2gcode-latest/
     path=/tmp/dxf2gcode-latest/source
+    wget -O ${HOME}/DXF2GCODE.ico ${source_icon_url}
     cd $path
 
 else
