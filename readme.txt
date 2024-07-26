@@ -1,5 +1,5 @@
 #################################
-# dxf2gcode Install Script V3.2 #
+# dxf2gcode Install Script V3.0 #
 #     for Debian based OS       #
 #     by Daniel Luginbuehl      #
 #          (c) 2023             #
@@ -13,7 +13,7 @@ Then follow the instructions. The script will install all necessary packages and
 
 Python 3.7 or higher is required. This is checked by the script.
 pip must be installed. Install with: sudo apt-get install python3-pip
-The script is tested on Debian 10, 11 & 12 with GNOME & MATE, Linux Mint 20.3 mate, 21 Cinnamon, 21.1 MATE, Xubuntu 22.04 (XFCE), Kubuntu 22.04 (KDE) and Lubuntu 20.04.4 (LXDE)
+The script is tested on Debian 10, 11 & 12 with GNOME & MATE, Linux Mint 20.3 mate, 21 Cinnamon, 21.1 MATE, 21.3 MATE, Xubuntu 22.04 (XFCE), Kubuntu 22.04 (KDE) and Lubuntu 20.04.4 (LXDE)
 
 The installation is ONLY complete when the script "dxf2gcode was successfully installed." spends in red!
 
@@ -62,6 +62,7 @@ Developer versions on
 https://github.com/ltspicer/dxf2gcode
 or
 https://sourceforge.net/projects/dxf2gcode/files/Development/
+The script can download and install this automatically.
 
 Support: https://www.ltspiceusers.ch/#dxf2gcode.68
 Download dxf2gcode: https://sourceforge.net/projects/dxf2gcode/files/latest/download
