@@ -119,7 +119,7 @@ if echo "$answer" | grep -iq "^1" ;then
     cd $path
 
 else
-	echo "Do you want automatically download the developer version? (y) ::: If you do want install your own version press n"
+	echo "Do you want automatically download the developer version? (y) ::: If you want install your own version press n"
 
     while true; do
 	    read answer
