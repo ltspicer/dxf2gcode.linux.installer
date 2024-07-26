@@ -2,11 +2,11 @@
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V3.2 #"
+echo "# dxf2gcode Install Script V3.3 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#   webmaster@ltspiceusers.ch   #"
-echo "#          (c) 2023             #"
+echo "#          (c) 2024             #"
 echo "#################################"
 echo ""
 echo "Support: https://www.ltspiceusers.ch/#dxf2gcode.68"
@@ -134,18 +134,21 @@ else
                 echo "Download from SOURCEFORGE"
                 wget -O /tmp/dxf2gcode-latest/dxf2gcode-latest.zip ${source_dev_url}
                 unzip /tmp/dxf2gcode-latest/dxf2gcode-latest.zip -d /tmp/dxf2gcode-latest/
-                path=/tmp/dxf2gcode-latest/source
+                rm /tmp/dxf2gcode-latest/dxf2gcode-latest.zip
+                cd /tmp/dxf2gcode-latest/*
+                path=$PWD
                 wget -O ${HOME}/DXF2GCODE.ico ${source_icon_url}
             else
 ####    Download from github
                 echo "Download from GITHUB"
                 wget -O /tmp/dxf2gcode-latest/master.zip https://github.com/ltspicer/dxf2gcode/archive/master.zip
                 unzip /tmp/dxf2gcode-latest/master.zip -d /tmp/dxf2gcode-latest/
+                rm /tmp/dxf2gcode-latest/master.zip
                 path=/tmp/dxf2gcode-latest/dxf2gcode-main
+                cd $path
                 wget -O ${HOME}/DXF2GCODE.ico https://raw.githubusercontent.com/ltspicer/dxf2gcode.linux.installer/main/DXF2GCODE.ico
             fi
 
-            cd $path
             devinst=0
             break
         fi
