@@ -2,7 +2,7 @@
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V3.3 #"
+echo "# dxf2gcode Install Script V3.4 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#   webmaster@ltspiceusers.ch   #"
@@ -26,6 +26,21 @@ RED='\033[0;31m'
 NC='\033[0m'
 devinst=0
 HOME="$(getent passwd $USER | awk -F ':' '{print $6}')"
+
+piperror () {
+    if [ "$error" -ne "0" ]; then
+        local vers=$($pyversion -V | sed 's/.* 3.//' | sed 's/\.[[:digit:]]\+//')
+        echo "${RED}PIP error: $error ${NC}"
+        echo
+        echo "${RED}To fix the pip error 'externally-managed-environment' do:${NC}"
+        echo "${RED}cd /usr/lib/python3.$vers ${NC}"
+        echo "${RED}sudo rm EXTERNALLY-MANAGED ${NC}"
+        echo
+        echo "${RED}See:${NC}"
+        echo "${RED}https://www.makeuseof.com/fix-pip-error-externally-managed-environment-linux/${NC}"
+        exit
+    fi
+}
 
 if ! hash $pyversion; then
     echo "$pyversion is not installed"
@@ -119,7 +134,8 @@ if echo "$answer" | grep -iq "^1" ;then
     cd $path
 
 else
-	echo "Do you want automatically download the developer version? (y) ::: If you want install your own version press n"
+	echo "If you want automatically download the developer version press y"
+	echo "If you want install your own version press n"
 
     while true; do
 	    read answer
@@ -233,15 +249,27 @@ if [ $retVal -ne 0 ]; then
 fi
 
 # If setuptools version > 65.0.0 then set to 65.0.0
-ver=$($pipversion show setuptools | grep Version | sed 's/.*: //' | sed 's/\.//g')
-set -e
-if [ "$ver" -gt "6500" ] ; then
-    echo "${RED}**** Setuptools will be downgraded to 65.0.0.${NC}"
-    ver=$($pipversion show setuptools | grep Version)
-    echo "${RED}**** Current $ver${NC}"
-    sudo $pipversion install setuptools==65 --break-system-packages
-    echo "${RED}**** Setuptools has been downgraded to 65.0.0.${NC}"
+version=$($pipversion show setuptools | grep Version | sed 's/.*: //' | sed 's/\.//g')
+set +e
+if [ "$ver" -lt "12" ]; then
+    if [ "$version" -gt "6500" ] ; then
+        echo "${RED}**** Setuptools will be downgraded to 65.0.0.${NC}"
+        ver=$($pipversion show setuptools | grep Version)
+        echo "${RED}**** Current $version${NC}"
+        $pipversion install --user setuptools==65
+        error=$?
+        piperror
+        echo "${RED}**** Setuptools has been downgraded to 65.0.0.${NC}"
+    fi
+else
+    echo "${RED}**** Python version is greater than 3.11. Setuptools will be upgraded.${NC}"
+    $pipversion install --user --upgrade setuptools
+    error=$?
+    piperror
+    echo "${RED}**** Setuptools has been upgraded.${NC}"
 fi
+
+set -e
 
 chmod +x make_tr.py
 chmod +x make_py_uic.py
@@ -259,6 +287,7 @@ cd dxf2gcode
 sudo mkdir -p i18n
 sudo cp $path/i18n/*.qm /usr/share/dxf2gcode/i18n
 sudo chmod -R o+r /usr/share/dxf2gcode/i18n
+echo "Remove orphaned packages:"
 sudo $aptversion autoremove
 
 echo ""
