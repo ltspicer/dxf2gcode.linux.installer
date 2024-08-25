@@ -121,7 +121,6 @@ else
             break
         fi
     done
-
 fi
 
 if echo "$answer" | grep -iq "^1" ;then
@@ -135,7 +134,6 @@ if echo "$answer" | grep -iq "^1" ;then
     path=/tmp/dxf2gcode-latest/source
     wget -O ${HOME}/DXF2GCODE.ico ${source_icon_url}
     cd $path
-
 else
     echo "If you want automatically download the developer version press y"
     echo "If you want install your own version press n"
