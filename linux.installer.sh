@@ -39,6 +39,9 @@ piperror () {
         echo
         echo "${RED}See:${NC}"
         echo "${RED}https://www.makeuseof.com/fix-pip-error-externally-managed-environment-linux/${NC}"
+        echo
+        echo "After you have corrected the PIP error, restart the script."
+        echo
         echo "Script ends in 8 seconds"
         sleep 8
         exit
