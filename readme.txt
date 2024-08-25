@@ -5,10 +5,20 @@
 #          (c) 2024             #
 #################################
 
-Just start in the console with:
+
+Enter in console:
+
+
+cd ~/Downloads
+
+wget https://raw.github.com/ltspicer/dxf2gcode.linux.installer/main/linux.installer.sh
+
+chmod a+x linux.installer.sh
+
 ./linux.installer.sh
-or double-click and select "run in terminal". Do not start with sudo in front!
-In Debian, first type "su - root" and run the script there.
+
+
+
 Then follow the instructions. The script will install all necessary packages and dxf2gcode automatically.
 
 Python 3.7 or higher is required. This is checked by the script.
