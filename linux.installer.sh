@@ -27,6 +27,7 @@ NC='\033[0m'
 devinst=0
 HOME="$(getent passwd $USER | awk -F ':' '{print $6}')"
 
+#### PIP error?
 piperror () {
     if [ "$error" -ne "0" ]; then
         local vers=$($pyversion -V | sed 's/.* 3.//' | sed 's/\.[[:digit:]]\+//')
@@ -38,6 +39,8 @@ piperror () {
         echo
         echo "${RED}See:${NC}"
         echo "${RED}https://www.makeuseof.com/fix-pip-error-externally-managed-environment-linux/${NC}"
+        echo "Script ends in 8 seconds"
+        sleep 8
         exit
     fi
 }
@@ -95,7 +98,7 @@ if [ $devinst -eq 0 ] ;then
     echo "2   ...a developer version"
     echo "3   Quit installer"
     while true; do
-	    read answer
+        read answer
         if echo "$answer" | grep -iq "^3" ;then
             exit
         fi
@@ -110,7 +113,7 @@ else
     echo "2   ...a developer version"
     echo "3   Quit installer"
     while true; do
-	    read answer
+        read answer
         if echo "$answer" | grep -iq "^3" ;then
             exit
         fi
@@ -123,7 +126,7 @@ fi
 
 if echo "$answer" | grep -iq "^1" ;then
     if [ -d /tmp/dxf2gcode-latest ]; then
-      sudo rm -rf /tmp/dxf2gcode-latest
+        sudo rm -rf /tmp/dxf2gcode-latest
     fi
 
     mkdir /tmp/dxf2gcode-latest
@@ -134,11 +137,11 @@ if echo "$answer" | grep -iq "^1" ;then
     cd $path
 
 else
-	echo "If you want automatically download the developer version press y"
-	echo "If you want install your own version press n"
+    echo "If you want automatically download the developer version press y"
+    echo "If you want install your own version press n"
 
     while true; do
-	    read answer
+        read answer
         if echo "$answer" | grep -iq "^y" ;then
             if [ -d /tmp/dxf2gcode-latest ]; then
               sudo rm -rf /tmp/dxf2gcode-latest
@@ -220,10 +223,12 @@ while true; do
     fi
 done
 
+#### Install dependencies
+
 sudo $aptversion update
 sudo $aptversion install -y dos2unix
 sudo $aptversion install -y $pyversion-pip
-sudo $aptversion install -y $pyversion-pyqt5  
+sudo $aptversion install -y $pyversion-pyqt5
 sudo $aptversion install -y pyqt5-dev-tools
 sudo $aptversion install -y qttools5-dev-tools
 sudo $aptversion install -y $pyversion-opengl
@@ -245,10 +250,10 @@ if [ $retVal -ne 0 ]; then
         echo "${RED}**** Maybe you have to restart the script after 'sudo pip3 install setuptools==65 --break-system-packages' command!${NC}"
         set -e
         sudo $aptversion install $pyversion-pyqt5
-    fi    
+    fi
 fi
 
-# If setuptools version > 65.0.0 then set to 65.0.0
+#### If setuptools version > 65.0.0 then set to 65.0.0
 version=$($pipversion show setuptools | grep Version | sed 's/.*: //' | sed 's/\.//g')
 set +e
 if [ "$ver" -lt "12" ]; then
