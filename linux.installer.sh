@@ -2,7 +2,7 @@
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V3.4 #"
+echo "# dxf2gcode Install Script V3.5 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#   webmaster@ltspiceusers.ch   #"
@@ -80,17 +80,23 @@ if [ $retVal -ne 0 ]; then
     echo
     echo "pip is not installed!"
     echo
-    echo "Install with:"
-    echo "Debian/Ubuntu/Mint:    sudo $aptversion install python3-pip"
-    echo
-    echo "Non-relevant operating systems:"
-    echo "CentOS/Red Hat/Fedora: sudo dnf install --assumeyes python3-pip"
-    echo "MacOS:                 sudo easy_install pip"
-    echo "Windows:               https://www.geeksforgeeks.org/how-to-install-pip-on-windows/"
-    echo
-    echo "Script ends in 8 seconds"
-    sleep 8
-    exit
+    echo "Should I install pip (y/n)?"
+    read answer
+    if echo "$answer" | grep -iq "^y" ;then
+        sudo $aptversion install $pyversion-pip
+    else
+        echo "Install with:"
+        echo "Debian/Ubuntu/Mint:    sudo $aptversion install python3-pip"
+        echo
+        echo "Non-relevant operating systems:"
+        echo "CentOS/Red Hat/Fedora: sudo dnf install --assumeyes python3-pip"
+        echo "MacOS:                 sudo easy_install pip"
+        echo "Windows:               https://www.geeksforgeeks.org/how-to-install-pip-on-windows/"
+        echo
+        echo "Script ends in 8 seconds"
+        sleep 8
+        exit
+    fi
 fi
 
 set -e
@@ -239,6 +245,10 @@ sudo $aptversion install -y pstoedit
 
 set +e
 
+echo "Backup EXTERNALLY-MANAGED"
+vers=$($pyversion -V | sed 's/.* 3.//' | sed 's/\.[[:digit:]]\+//')
+sudo mv /usr/lib/python3.$vers/EXTERNALLY-MANAGED /usr/lib/python3.$vers/EXTERNALLY-MANAGED.bak
+
 echo "**** pip3 install --user PyQt5"
 $pipversion install --user pyqt5
 retVal=$?
@@ -269,11 +279,15 @@ if [ "$ver" -lt "12" ]; then
     fi
 else
     echo "${RED}**** Python version is greater than 3.11. Setuptools will be upgraded.${NC}"
+#   "sudo apt install $pyversion-setuptools"
     $pipversion install --user --upgrade setuptools
     error=$?
     piperror
     echo "${RED}**** Setuptools has been upgraded.${NC}"
 fi
+
+echo "Restore EXTERNALLY-MANAGED"
+sudo mv /usr/lib/python3.$vers/EXTERNALLY-MANAGED.bak /usr/lib/python3.$vers/EXTERNALLY-MANAGED
 
 set -e
 
