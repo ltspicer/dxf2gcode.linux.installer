@@ -2,7 +2,7 @@
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V3.5 #"
+echo "# dxf2gcode Install Script V3.6 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#   webmaster@ltspiceusers.ch   #"
@@ -46,6 +46,27 @@ piperror () {
         sleep 8
         exit
     fi
+}
+
+find_deepest_dxf2gcode_dir() {
+    local current_dir="$1"
+    while true; do
+        # Check whether the current directory contains files
+        if find "$current_dir" -mindepth 1 -maxdepth 1 -type f | grep -q .; then
+            break
+        fi
+
+        # Finding the first suitable subdirectory
+        local next_dir=$(find "$current_dir" -mindepth 1 -maxdepth 1 -type d -name "dxf2gcode*" | head -n 1)
+        if [ -z "$next_dir" ]; then
+            # No further subdirectories available
+            break
+        fi
+
+        # Change to the next suitable subdirectory
+        current_dir="$next_dir"
+    done
+    echo "$current_dir"
 }
 
 if ! hash $pyversion; then
@@ -161,7 +182,16 @@ else
                 wget -O /tmp/dxf2gcode-latest/dxf2gcode-latest.zip ${source_dev_url}
                 unzip /tmp/dxf2gcode-latest/dxf2gcode-latest.zip -d /tmp/dxf2gcode-latest/
                 rm /tmp/dxf2gcode-latest/dxf2gcode-latest.zip
-                cd /tmp/dxf2gcode-latest/*
+                # Start directory
+                base_dir="/tmp/dxf2gcode-latest"
+
+                # Call the function and change to the lowest directory
+                deepest_dir=$(find_deepest_dxf2gcode_dir "$base_dir")
+                cd "$deepest_dir" || { echo "Error: Could not change to directory $deepest_dir"; exit 1; }
+
+                # Output of the current directory
+                echo "Current folder: $(pwd)"
+
                 path=$PWD
                 wget -O ${HOME}/DXF2GCODE.ico ${source_icon_url}
             else
