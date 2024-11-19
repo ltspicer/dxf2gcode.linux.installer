@@ -2,7 +2,7 @@
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V3.6 #"
+echo "# dxf2gcode Install Script V3.7 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#   webmaster@ltspiceusers.ch   #"
@@ -23,6 +23,7 @@ aptversion="apt-get"    # Old style = apt-get | New style = apt
 
 #### Do not make any changes from here!
 RED='\033[0;31m'
+GREEN='\033[0;32m'
 NC='\033[0m'
 devinst=0
 HOME="$(getent passwd $USER | awk -F ':' '{print $6}')"
@@ -104,7 +105,7 @@ if [ $retVal -ne 0 ]; then
     echo "Should I install pip (y/n)?"
     read answer
     if echo "$answer" | grep -iq "^y" ;then
-        sudo $aptversion install $pyversion-pip
+        sudo $aptversion install -y $pyversion-pip
     else
         echo "Install with:"
         echo "Debian/Ubuntu/Mint:    sudo $aptversion install python3-pip"
@@ -202,6 +203,10 @@ else
                 rm /tmp/dxf2gcode-latest/master.zip
                 path=/tmp/dxf2gcode-latest/dxf2gcode-main
                 cd $path
+
+                # Output of the current directory
+                echo "Current folder: $(pwd)"
+
                 wget -O ${HOME}/DXF2GCODE.ico https://raw.githubusercontent.com/ltspicer/dxf2gcode.linux.installer/main/DXF2GCODE.ico
             fi
 
@@ -209,15 +214,16 @@ else
             break
         fi
         if echo "$answer" | grep -iq "^n" ;then
-            echo "Ok. First download the desired version of dxf2gcode ${RED}into your home directory${NC} (developer version is needed for Python 3.10+)."
+            echo
+            echo "${RED}Ok. First download the desired version of dxf2gcode into your home directory${NC} (developer version is needed for Python 3.10+)."
             echo "Download links:"
-            echo ""
-            echo "${RED}https://sourceforge.net/p/dxf2gcode/sourcecode/ci/develop/tree${NC} (source directory)"
+            echo
+            echo "${GREEN}https://sourceforge.net/p/dxf2gcode/sourcecode/ci/develop/tree${NC} (source directory)"
             echo "or"
-            echo "${RED}https://github.com/ltspicer/dxf2gcode${NC}"
-            echo ""
+            echo "${GREEN}https://github.com/ltspicer/dxf2gcode${NC}"
+            echo
             while true; do
-                echo "Enter path to the dxf2gcode source in your home directory e.g. Downloads/source (without / at the beginning and end!)"
+                echo "Enter path to the dxf2gcode source in your home directory e.g. ${GREEN}Downloads/source ${RED}(without / at the beginning and end!)${NC}"
                 read SRC
                 if [ -z "$SRC" ] ;then
                     SRC="_"
@@ -256,6 +262,7 @@ while true; do
         break
     fi
     if echo "$answer" | grep -iq "^n" ;then
+        rm ${HOME}/DXF2GCODE.ico
         exit
     fi
 done
@@ -288,9 +295,9 @@ if [ $retVal -ne 0 ]; then
     retVal=$?
     if [ $retVal -ne 0 ]; then
         echo "**** I try $aptversion install $pyversion-pyqt5."
-        echo "${RED}**** Maybe you have to restart the script after 'sudo pip3 install setuptools==65 --break-system-packages' command!${NC}"
+        echo "**** Maybe you have to restart the script after 'sudo pip3 install setuptools==65 --break-system-packages' command!"
         set -e
-        sudo $aptversion install $pyversion-pyqt5
+        sudo $aptversion install -y $pyversion-pyqt5
     fi
 fi
 
@@ -299,21 +306,21 @@ version=$($pipversion show setuptools | grep Version | sed 's/.*: //' | sed 's/\
 set +e
 if [ "$ver" -lt "12" ]; then
     if [ "$version" -gt "6500" ] ; then
-        echo "${RED}**** Setuptools will be downgraded to 65.0.0.${NC}"
+        echo "${GREEN}**** Setuptools will be downgraded to 65.0.0.${NC}"
         ver=$($pipversion show setuptools | grep Version)
-        echo "${RED}**** Current $version${NC}"
+        echo "${GREEN}**** Current $version${NC}"
         $pipversion install --user setuptools==65
         error=$?
         piperror
-        echo "${RED}**** Setuptools has been downgraded to 65.0.0.${NC}"
+        echo "${GREEN}**** Setuptools has been downgraded to 65.0.0.${NC}"
     fi
 else
-    echo "${RED}**** Python version is greater than 3.11. Setuptools will be upgraded.${NC}"
+    echo "${GREEN}**** Python version is greater than 3.11. Setuptools will be upgraded.${NC}"
 #   "sudo apt install $pyversion-setuptools"
     $pipversion install --user --upgrade setuptools
     error=$?
     piperror
-    echo "${RED}**** Setuptools has been upgraded.${NC}"
+    echo "${GREEN}**** Setuptools has been upgraded.${NC}"
 fi
 
 echo "Restore EXTERNALLY-MANAGED"
@@ -338,17 +345,14 @@ sudo mkdir -p i18n
 sudo cp $path/i18n/*.qm /usr/share/dxf2gcode/i18n
 sudo chmod -R o+r /usr/share/dxf2gcode/i18n
 echo "Remove orphaned packages:"
-sudo $aptversion autoremove
+sudo $aptversion autoremove -y
 
-echo ""
+echo
 echo "${RED}dxf2gcode was successfully installed.${NC}"
-echo "${RED}dxf2gcode was successfully installed.${NC}"
-echo "${RED}dxf2gcode was successfully installed.${NC}"
-echo "${RED}dxf2gcode was successfully installed.${NC}"
-echo ""
-echo "You can start it now with ${RED}dxf2gcode${NC} in the console."
-echo "If you want, you can create a starter on the desktop. Use command ${RED}dxf2gcode %f${NC} inside the starter."
-echo "The icon for the starter is stored at: ${RED}"${HOME}/DXF2GCODE.ico"${NC}"
+echo
+echo "You can start it now with ${GREEN}dxf2gcode${NC} in the console."
+echo "If you want, you can create a starter on the desktop. Use command ${GREEN}dxf2gcode %f${NC} inside the starter."
+echo "The icon for the starter is stored at: ${GREEN}"${HOME}/DXF2GCODE.ico"${NC}"
 
 if [ $devinst -eq 1 ] ;then
     echo "Should I delete the "$path" directory (y/n)?"
