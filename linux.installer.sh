@@ -2,7 +2,7 @@
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V3.7 #"
+echo "# dxf2gcode Install Script V3.8 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#   webmaster@ltspiceusers.ch   #"
@@ -270,6 +270,8 @@ done
 #### Install dependencies
 
 sudo $aptversion update
+echo "Remove orphaned packages:"
+sudo $aptversion autoremove -y
 sudo $aptversion install -y dos2unix
 sudo $aptversion install -y $pyversion-pip
 sudo $aptversion install -y $pyversion-pyqt5
@@ -344,8 +346,6 @@ cd dxf2gcode
 sudo mkdir -p i18n
 sudo cp $path/i18n/*.qm /usr/share/dxf2gcode/i18n
 sudo chmod -R o+r /usr/share/dxf2gcode/i18n
-echo "Remove orphaned packages:"
-sudo $aptversion autoremove -y
 
 echo
 echo "${RED}dxf2gcode was successfully installed.${NC}"
