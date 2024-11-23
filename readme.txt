@@ -23,7 +23,8 @@ Then follow the instructions. The script will install all necessary packages and
 
 Python 3.7 or higher is required. This is checked by the script.
 pip must be installed. Install with: sudo apt-get install python3-pip
-The script is tested on Debian 10, 11 & 12 with GNOME & MATE, Linux Mint 20.3 mate, 21 Cinnamon, 21.1 MATE, 21.3 MATE, 22 MATE, Xubuntu 22.04 (XFCE), Kubuntu 22.04 (KDE) and Lubuntu 20.04.4 (LXDE)
+The script is tested on Debian 10, 11 & 12 with GNOME & MATE, Linux Mint 20.3 mate, 21 Cinnamon, 21.1 MATE, 21.3 MATE, 22 MATE,
+Xubuntu 22.04 (XFCE), Kubuntu 22.04 (KDE) and Lubuntu 20.04.4 (LXDE), Raspberry OS, MX Linux
 
 The installation is ONLY complete when the script "dxf2gcode was successfully installed." spends in red!
 
