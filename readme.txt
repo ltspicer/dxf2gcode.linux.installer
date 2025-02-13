@@ -1,22 +1,20 @@
 #################################
-# dxf2gcode Install Script V3.8 #
+# dxf2gcode Install Script V3.9 #
 #     for Debian based OS       #
 #     by Daniel Luginbuehl      #
 #          (c) 2024             #
 #################################
 
 
-Enter in console:
+Enter in the console:
 
 
 cd ~/Downloads
-
 wget https://raw.github.com/ltspicer/dxf2gcode.linux.installer/main/linux.installer.sh
-
 chmod a+x linux.installer.sh
-
 ./linux.installer.sh
 
+or download the file linux.installer.sh, make it executable ( chmod a+x linux.installer.sh ) and start it with: ./linux.installer.sh
 
 
 Then follow the instructions. The script will install all necessary packages and dxf2gcode automatically.
@@ -25,9 +23,10 @@ Python 3.7 or higher is required. This is checked by the script.
 pip must be installed. Install with: sudo apt-get install python3-pip
 
 The script is tested on:
-Debian 10, 11 & 12 with GNOME & MATE, Linux Mint 20.3 mate,
-21 Cinnamon, 21.1 MATE, 21.3 MATE, 22 MATE, Xubuntu 22.04 (XFCE),
-Kubuntu 22.04 (KDE) and Lubuntu 20.04.4 (LXDE), Raspberry OS, MX Linux
+Debian 10, 11 & 12 with GNOME & MATE
+Xubuntu 22.04 (XFCE), Kubuntu 22.04 (KDE) and Lubuntu 20.04.4 (LXDE)
+Raspberry OS/Raspbian, MX Linux
+Linux Mint: 20.3 MATE, 21 Cinnamon, 21.1 MATE, 21.3 MATE, 22 MATE, 22.1 MATE
 
 
 The installation is ONLY complete when the script "dxf2gcode was successfully installed." spends in red!

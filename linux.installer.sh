@@ -2,7 +2,7 @@
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V3.8 #"
+echo "# dxf2gcode Install Script V3.9 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#   webmaster@ltspiceusers.ch   #"
@@ -71,38 +71,28 @@ find_deepest_dxf2gcode_dir() {
 }
 
 if ! hash $pyversion; then
-    echo "$pyversion is not installed"
-    echo "Script ends in 8 seconds"
+    echo "${RED}$pyversion is not installed"
+    echo "Script ends in 8 seconds${NC}"
     sleep 8
     exit
 fi
-
-echo "Installed Python version:"
-$pyversion -V
-echo ""
 
 ver=$($pyversion -V | sed 's/.* 3.//' | sed 's/\.[[:digit:]]\+//')
 
 if [ "$ver" -lt "7" ] || [ -z "$ver" ]; then
-    echo "This script requires python 3.7 or higher"
-    echo "Script ends in 8 seconds"
+    echo "${RED}This script requires python 3.7 or higher"
+    echo "Script ends in 8 seconds${NC}"
     sleep 8
     exit
 fi
 
-if [ "$ver" -ge "10" ]; then
-    echo "It seems that you are using Python 3.10 or higher."
-    echo "In order for dxf2gcode to run properly, the developer version must be installed."
-    devinst=1
-fi
-
-$pipversion -V
+$pipversion -V >/dev/null 2>&1
 retVal=$?
 if [ $retVal -ne 0 ]; then
     echo
-    echo "pip is not installed!"
+    echo "${GREEN}pip is not installed!"
     echo
-    echo "Should I install pip (y/n)?"
+    echo "Should I install pip (y/n)?${NC}"
     read answer
     if echo "$answer" | grep -iq "^y" ;then
         sudo $aptversion install -y $pyversion-pip
@@ -119,6 +109,16 @@ if [ $retVal -ne 0 ]; then
         sleep 8
         exit
     fi
+fi
+
+echo "${GREEN}Installed Python version:"
+$pyversion -V
+echo "${NC}"
+
+if [ "$ver" -ge "10" ]; then
+    echo "${GREEN}It seems that you are using Python 3.10 or higher."
+    echo "In order for dxf2gcode to run properly, the developer version must be installed.${NC}"
+    devinst=1
 fi
 
 set -e
@@ -205,7 +205,7 @@ else
                 cd $path
 
                 # Output of the current directory
-                echo "Current folder: $(pwd)"
+                echo "${GREEN}Current folder: $(pwd)${NC}"
 
                 wget -O ${HOME}/DXF2GCODE.ico https://raw.githubusercontent.com/ltspicer/dxf2gcode.linux.installer/main/DXF2GCODE.ico
             fi
@@ -223,7 +223,7 @@ else
             echo "${GREEN}https://github.com/ltspicer/dxf2gcode${NC}"
             echo
             while true; do
-                echo "Enter path to the dxf2gcode source in your home directory e.g. ${GREEN}Downloads/source ${RED}(without / at the beginning and end!)${NC}"
+                echo "Enter path to the dxf2gcode source in your home directory e.g. ${GREEN}Downloads/source ${RED}(without / at the beginning and end!) ${NC}"
                 read SRC
                 if [ -z "$SRC" ] ;then
                     SRC="_"
@@ -232,15 +232,15 @@ else
                     exit
                 fi
                 path=${HOME}/$SRC
-                echo "I will work in the directory "$path
-                echo "Is that correct (y/n)? (q = Quit installer)"
+                echo "${GREEN}I will work in the directory "$path
+                echo "Is that correct (y/n)? (q = Quit installer)${NC}"
                 read answer
                 if echo "$answer" | grep -iq "^q" ;then
                     exit
                 fi
                 if echo "$answer" | grep -iq "^y" ;then
                     if [ ! -d $path ]; then
-                        echo "This directory does not exist!"
+                        echo "${RED}This directory does not exist!${NC}"
                     else
                         cd $path
                         break
@@ -254,7 +254,7 @@ else
 fi
 
 echo ""
-echo "I will now install. Are you ready (y/n)?"
+echo "${GREEN}I will now install. Are you ready (y/n)?${NC}"
 while true; do
     read answer
     if echo "$answer" | grep -iq "^y" ;then
@@ -263,6 +263,7 @@ while true; do
     fi
     if echo "$answer" | grep -iq "^n" ;then
         rm ${HOME}/DXF2GCODE.ico
+        sudo rm -rf /tmp/dxf2gcode-latest
         exit
     fi
 done
