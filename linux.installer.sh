@@ -2,7 +2,7 @@
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V3.9 #"
+echo "# dxf2gcode Install Script V4.0 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#   webmaster@ltspiceusers.ch   #"
@@ -95,7 +95,7 @@ if [ $retVal -ne 0 ]; then
     echo "Should I install pip (y/n)?${NC}"
     read answer
     if echo "$answer" | grep -iq "^y" ;then
-        sudo $aptversion install -y $pyversion-pip
+        sudo $aptversion install -y python3-pip
     else
         echo "Install with:"
         echo "Debian/Ubuntu/Mint:    sudo $aptversion install python3-pip"
@@ -274,11 +274,11 @@ sudo $aptversion update
 echo "Remove orphaned packages:"
 sudo $aptversion autoremove -y
 sudo $aptversion install -y dos2unix
-sudo $aptversion install -y $pyversion-pip
-sudo $aptversion install -y $pyversion-pyqt5
+sudo $aptversion install -y python3-pip
+sudo $aptversion install -y python3-pyqt5
 sudo $aptversion install -y pyqt5-dev-tools
 sudo $aptversion install -y qttools5-dev-tools
-sudo $aptversion install -y $pyversion-opengl
+sudo $aptversion install -y python3-opengl
 sudo $aptversion install -y qtcreator pyqt5-dev-tools
 sudo $aptversion install -y poppler-utils
 sudo $aptversion install -y pstoedit
@@ -297,10 +297,10 @@ if [ $retVal -ne 0 ]; then
     $pipversion install --user PyQt5==5.12.2
     retVal=$?
     if [ $retVal -ne 0 ]; then
-        echo "**** I try $aptversion install $pyversion-pyqt5."
+        echo "**** I try $aptversion install python3-pyqt5."
         echo "**** Maybe you have to restart the script after 'sudo pip3 install setuptools==65 --break-system-packages' command!"
         set -e
-        sudo $aptversion install -y $pyversion-pyqt5
+        sudo $aptversion install -y python3-pyqt5
     fi
 fi
 
