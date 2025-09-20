@@ -2,7 +2,7 @@
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V4.0 #"
+echo "# dxf2gcode Install Script V4.1 #"
 echo "#     for Debian based OS       #"
 echo "#     by Daniel Luginbuehl      #"
 echo "#   webmaster@ltspiceusers.ch   #"
@@ -92,7 +92,7 @@ if [ $retVal -ne 0 ]; then
     echo
     echo "${GREEN}pip is not installed!"
     echo
-    echo "Should I install pip (y/n)?${NC}"
+    echo "Should I install pip (y/N)?${NC}"
     read answer
     if echo "$answer" | grep -iq "^y" ;then
         sudo $aptversion install -y python3-pip
@@ -233,7 +233,7 @@ else
                 fi
                 path=${HOME}/$SRC
                 echo "${GREEN}I will work in the directory "$path
-                echo "Is that correct (y/n)? (q = Quit installer)${NC}"
+                echo "Is that correct (y/n/q)? (q = Quit installer)${NC}"
                 read answer
                 if echo "$answer" | grep -iq "^q" ;then
                     exit
@@ -356,7 +356,7 @@ echo "If you want, you can create a starter on the desktop. Use command ${GREEN}
 echo "The icon for the starter is stored at: ${GREEN}"${HOME}/DXF2GCODE.ico"${NC}"
 
 if [ $devinst -eq 1 ] ;then
-    echo "Should I delete the "$path" directory (y/n)?"
+    echo "Should I delete the "$path" directory (y/N)?"
     read answer
     if echo "$answer" | grep -iq "^y" ;then
         sudo rm -rf $path
