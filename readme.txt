@@ -1,5 +1,5 @@
 #################################
-# dxf2gcode Install Script V4.0 #
+# dxf2gcode Install Script V4.1 #
 #     for Debian based OS       #
 #     by Daniel Luginbuehl      #
 #          (c) 2024             #
