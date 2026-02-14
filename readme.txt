@@ -26,7 +26,7 @@ The script is tested on:
 Debian 10, 11 & 12 with GNOME & MATE
 Xubuntu 22.04 (XFCE), Kubuntu 22.04 (KDE) and Lubuntu 20.04.4 (LXDE)
 Raspberry OS/Raspbian, MX Linux
-Linux Mint: 20.3 MATE, 21 Cinnamon, 21.1 MATE, 21.3 MATE, 22.x MATE
+Linux Mint: 20.3 MATE, 21.x Cinnamon, 21.x MATE, 22.x MATE
 
 
 The installation is ONLY complete when the script "dxf2gcode was successfully installed." spends in red!
