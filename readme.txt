@@ -2,7 +2,7 @@
 # dxf2gcode Install Script V4.1 #
 #     for Debian based OS       #
 #     by Daniel Luginbuehl      #
-#          (c) 2024             #
+#          (c) 2026             #
 #################################
 
 
