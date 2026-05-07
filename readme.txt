@@ -6,7 +6,7 @@
 #################################
 
 ########################################
-#       dxf2gcode DEV Installer        #
+#       dxf2gcode Installer V1.0       #
 #          for Arch/CachyOS            #
 #        by D. Luginbuehl 2026         #
 ########################################

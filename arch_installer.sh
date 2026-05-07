@@ -2,7 +2,7 @@
 
 echo ""
 echo "########################################"
-echo "#       dxf2gcode DEV Installer        #"
+echo "#      dxf2gcode Installer V1.0        #"
 echo "#          for Arch/CachyOS            #"
 echo "#        by D. Luginbuehl 2026         #"
 echo "########################################"
