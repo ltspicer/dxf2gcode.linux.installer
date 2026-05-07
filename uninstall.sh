@@ -2,68 +2,105 @@
 
 echo ""
 echo "###################################"
-echo "# dxf2gcode uninstall Script V1.0 #"
-echo "#      for Debian based OS        #"
-echo "#      by Daniel Luginbuehl       #"
-echo "#    webmaster@ltspiceusers.ch    #"
-echo "#           (c) 2023              #"
+echo "# dxf2gcode uninstall Script V3.0 #"
+echo "#    for Debian + Arch/CachyOS    #"
+echo "#       by Daniel Luginbuehl      #"
+echo "#             (C) 2026            #"
 echo "###################################"
 echo ""
-echo "Support: https://www.ltspiceusers.ch/#dxf2gcode.68"
-echo ""
+
+# --- OS Detection ---------------------------------------------------------
+
+if [ -f /etc/debian_version ]; then
+    OS="debian"
+elif [ -f /etc/arch-release ]; then
+    OS="arch"
+else
+    echo "Unsupported OS. Only Debian/Ubuntu and Arch/CachyOS are supported."
+    exit 1
+fi
+
+echo "Detected OS: $OS"
 echo ""
 
-aptversion="apt-get"    # Old style = apt-get | New style = apt
+# --- Ask about dependency removal ----------------------------------------
 
-echo "y=yes, n=no, q=quit"
-echo "Do you also want to remove the dependencies (y/n/q)?"
+echo "Remove dependencies as well (y/n/q)?"
 while true; do
     read answer
-    if echo "$answer" | grep -iq "^y" ;then
-        sudo $aptversion purge -y dos2unix
-#        sudo $aptversion purge -y pip-pip
-#        sudo $aptversion purge -y pip-pyqt5
-        sudo $aptversion purge -y pyqt5-dev-tools
-        sudo $aptversion purge -y qttools5-dev-tools
-#        sudo $aptversion purge -y pip-opengl
-        sudo $aptversion purge -y qtcreator pyqt5-dev-tools
-        sudo $aptversion purge -y poppler-utils
-        sudo $aptversion purge -y pstoedit
-        break
-    fi
-    if echo "$answer" | grep -iq "^n" ;then
-        break
-    fi
-    if echo "$answer" | grep -iq "^q" ;then
-        exit
-    fi
+    case "$answer" in
+        [Yy]* )
+            REMOVE_DEPS=1
+            break ;;
+        [Nn]* )
+            REMOVE_DEPS=0
+            break ;;
+        [Qq]* )
+            exit ;;
+    esac
 done
 
-echo "I will now uninstall dxf2gcode (y/q)?"
+# --- Debian dependency removal -------------------------------------------
+
+if [ "$OS" = "debian" ] && [ "$REMOVE_DEPS" = "1" ]; then
+    echo "Removing Debian dependencies..."
+    sudo apt-get purge -y dos2unix pyqt5-dev-tools qttools5-dev-tools poppler-utils pstoedit
+fi
+
+# --- Arch dependency removal ---------------------------------------------
+
+if [ "$OS" = "arch" ] && [ "$REMOVE_DEPS" = "1" ]; then
+    echo "Removing Arch/CachyOS dependencies..."
+    sudo pacman -Rns --noconfirm \
+        dos2unix \
+        python-pyqt5 \
+        python-opengl \
+        qt5-tools \
+        poppler-utils \
+        pstoedit
+fi
+
+# --- Confirm uninstall ----------------------------------------------------
+
+echo ""
+echo "Uninstall dxf2gcode now (y/q)?"
 while true; do
     read answer
-    if echo "$answer" | grep -iq "^y" ;then
-        echo ""
-        break
-    fi
-    if echo "$answer" | grep -iq "^q" ;then
-        exit
-    fi
+    case "$answer" in
+        [Yy]* ) break ;;
+        [Qq]* ) exit ;;
+    esac
 done
 
-sudo rm -rf /usr/share/dxf2gcode
+# --- Remove launcher + config --------------------------------------------
+
+echo "Removing launcher and config..."
 sudo rm -f /usr/local/bin/dxf2gcode
-sudo rm -rf ~/.config/dxf2gcode
-sudo rm -f /usr/local/lib/python3.7/dist-packages/dxf2gcode*
-sudo rm -f /usr/local/lib/python3.8/dist-packages/dxf2gcode*
-sudo rm -f /usr/local/lib/python3.9/dist-packages/dxf2gcode*
-sudo rm -f /usr/local/lib/python3.10/dist-packages/dxf2gcode*
-sudo rm -f /usr/local/lib/python3.11/dist-packages/dxf2gcode*
-sudo rm -f /usr/local/lib/python3.12/dist-packages/dxf2gcode*
-sudo rm -f /usr/local/lib/python3.13/dist-packages/dxf2gcode*
-sudo rm -f /usr/local/lib/python3.14/dist-packages/dxf2gcode*
-sudo rm -f /usr/local/lib/python3.15/dist-packages/dxf2gcode*
-sudo rm -f /usr/local/lib/python3.16/dist-packages/dxf2gcode*
+rm -rf ~/.config/dxf2gcode
+rm -f "${HOME}/DXF2GCODE.ico"
+sudo rm -f /usr/share/icons/DXF2GCODE.ico
+rm -f ~/.local/share/icons/dxf2gcode.*
 
-echo
-echo "dxf2gcode is now removed!"
+# --- Remove Python modules (dynamic) -------------------------------------
+
+echo "Removing Python modules..."
+
+# Detect installed Python versions
+PYVERS=$(ls /usr/lib | grep -E '^python[0-9]+\.[0-9]+$' | sed 's/python//')
+
+for ver in $PYVERS; do
+    for base in /usr/lib /usr/local/lib; do
+        for pkg in site-packages dist-packages; do
+            TARGET="$base/python$ver/$pkg/dxf2gcode"
+            if [ -d "$TARGET" ]; then
+                echo "Removing $TARGET"
+                sudo rm -rf "$TARGET"
+            fi
+        done
+    done
+done
+
+echo ""
+echo "dxf2gcode has been removed."
+echo ""
+
