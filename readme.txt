@@ -21,7 +21,7 @@ chmod a+x linux.installer.sh
 
 or download the file linux.installer.sh, make it executable ( chmod a+x linux.installer.sh ) and start it with: ./linux.installer.sh
 
-For Arch (CachyOS) based OS:
+For CachyOS (Arch) based OS:
 
 cd ~/Downloads
 wget https://raw.github.com/ltspicer/dxf2gcode.linux.installer/main/arch.installer.sh
