@@ -5,16 +5,30 @@
 #          (c) 2026             #
 #################################
 
+########################################
+#       dxf2gcode DEV Installer        #
+#          for Arch/CachyOS            #
+#        by D. Luginbuehl 2026         #
+########################################
 
 Enter in the console:
 
-
+For Debian based OS:
 cd ~/Downloads
 wget https://raw.github.com/ltspicer/dxf2gcode.linux.installer/main/linux.installer.sh
 chmod a+x linux.installer.sh
 ./linux.installer.sh
 
 or download the file linux.installer.sh, make it executable ( chmod a+x linux.installer.sh ) and start it with: ./linux.installer.sh
+
+For Arch (CachyOS) based OS:
+
+cd ~/Downloads
+wget https://raw.github.com/ltspicer/dxf2gcode.linux.installer/main/arch.installer.sh
+chmod a+x arch.installer.sh
+./arch.installer.sh
+
+or download the file arch.installer.sh, make it executable ( chmod a+x arch.installer.sh ) and start it with: ./arch.installer.sh
 
 
 Then follow the instructions. The script will install all necessary packages and dxf2gcode automatically.
@@ -28,8 +42,10 @@ Xubuntu 22.04 (XFCE), Kubuntu 22.04 (KDE) and Lubuntu 20.04.4 (LXDE)
 Raspberry OS/Raspbian, MX Linux
 Linux Mint: 20.3 MATE, 21.x Cinnamon, 21.x MATE, 22.x MATE
 
+CachyOS (cachyos-desktop-linux-260426)
 
-The installation is ONLY complete when the script "dxf2gcode was successfully installed." spends in red!
+
+The installation is ONLY complete when the script "dxf2gcode has been installed successfully." spends!
 
 Unfortunately is the installation of Python3.7.3 or higher on Debian 9 (Wheezy) almost impossible.
 Many LinuxCNC computers have Debian Wheezy :(
