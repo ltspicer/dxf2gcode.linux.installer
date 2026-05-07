@@ -33,8 +33,10 @@ or download the file arch.installer.sh, make it executable ( chmod a+x arch.inst
 
 Then follow the instructions. The script will install all necessary packages and dxf2gcode automatically.
 
+
 Python 3.7 or higher is required. This is checked by the script.
-pip must be installed. Install with: sudo apt-get install python3-pip
+Only for Debian based OS: pip must be installed. Install with: sudo apt-get install python3-pip
+
 
 The script is tested on:
 Debian 10, 11 & 12 with GNOME & MATE
@@ -46,9 +48,6 @@ CachyOS (cachyos-desktop-linux-260426)
 
 
 The installation is ONLY complete when the script "dxf2gcode has been installed successfully." spends!
-
-Unfortunately is the installation of Python3.7.3 or higher on Debian 9 (Wheezy) almost impossible.
-Many LinuxCNC computers have Debian Wheezy :(
 
 
 Because official dxf2gcode does not run properly under Python 3.10+, the script ask to install a developer version of dxf2gcode.
