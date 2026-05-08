@@ -1,19 +1,14 @@
 #################################
-# dxf2gcode Install Script V4.1 #
-#     for Debian based OS       #
-#     by Daniel Luginbuehl      #
+# dxf2gcode Install Script V5.0 #
+#   for Debian & Arch based OS  #
+#      by Daniel Luginbuehl     #
+#   webmaster@ltspiceusers.ch   #
 #          (c) 2026             #
 #################################
 
-########################################
-#       dxf2gcode Installer V1.0       #
-#          for Arch/CachyOS            #
-#        by D. Luginbuehl 2026         #
-########################################
-
 Enter in the console:
 
-For Debian based OS:
+For Debian (e.g. Ubuntu, Mint) & Arch (e.g. CachyOS) based OSes:
 cd ~/Downloads
 wget https://raw.github.com/ltspicer/dxf2gcode.linux.installer/main/linux.installer.sh
 chmod a+x linux.installer.sh
@@ -21,24 +16,17 @@ chmod a+x linux.installer.sh
 
 or download the file linux.installer.sh, make it executable ( chmod a+x linux.installer.sh ) and start it with: ./linux.installer.sh
 
-For CachyOS (Arch) based OS:
-
-cd ~/Downloads
-wget https://raw.github.com/ltspicer/dxf2gcode.linux.installer/main/arch.installer.sh
-chmod a+x arch.installer.sh
-./arch.installer.sh
-
-or download the file arch.installer.sh, make it executable ( chmod a+x arch.installer.sh ) and start it with: ./arch.installer.sh
-
 
 Then follow the instructions. The script will install all necessary packages and dxf2gcode automatically.
 
 
 Python 3.7 or higher is required. This is checked by the script.
+
 Only for Debian based OS: pip must be installed. Install with: sudo apt-get install python3-pip
 
 
 The script is tested on:
+
 Debian 10, 11 & 12 with GNOME & MATE
 Xubuntu 22.04 (XFCE), Kubuntu 22.04 (KDE) and Lubuntu 20.04.4 (LXDE)
 Raspberry OS/Raspbian, MX Linux
@@ -48,7 +36,6 @@ CachyOS (cachyos-desktop-linux-260426)
 
 
 The installation is ONLY complete when the script "dxf2gcode has been installed successfully." spends!
-
 
 Because official dxf2gcode does not run properly under Python 3.10+, the script ask to install a developer version of dxf2gcode.
 If desired, the script can download this automatically.
