@@ -2,7 +2,7 @@
 
 echo ""
 echo "###################################"
-echo "# dxf2gcode uninstall Script V3.0 #"
+echo "# dxf2gcode uninstall Script V3.1 #"
 echo "#    for Debian + Arch/CachyOS    #"
 echo "#       by Daniel Luginbuehl      #"
 echo "#             (C) 2026            #"
@@ -40,6 +40,18 @@ while true; do
     esac
 done
 
+# --- Confirm uninstall ----------------------------------------------------
+
+echo ""
+echo "Uninstall dxf2gcode now (y/q)?"
+while true; do
+    read answer
+    case "$answer" in
+        [Yy]* ) break ;;
+        [Qq]* ) exit ;;
+    esac
+done
+
 # --- Debian dependency removal -------------------------------------------
 
 if [ "$OS" = "debian" ] && [ "$REMOVE_DEPS" = "1" ]; then
@@ -59,18 +71,6 @@ if [ "$OS" = "arch" ] && [ "$REMOVE_DEPS" = "1" ]; then
         poppler-utils \
         pstoedit
 fi
-
-# --- Confirm uninstall ----------------------------------------------------
-
-echo ""
-echo "Uninstall dxf2gcode now (y/q)?"
-while true; do
-    read answer
-    case "$answer" in
-        [Yy]* ) break ;;
-        [Qq]* ) exit ;;
-    esac
-done
 
 # --- Remove launcher + config --------------------------------------------
 
