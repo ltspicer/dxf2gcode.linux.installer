@@ -1,6 +1,6 @@
 ```
 #################################
-# dxf2gcode Install Script V5.0 #
+# dxf2gcode Install Script V5.1 #
 #   for Debian & Arch based OS  #
 #      by Daniel Luginbuehl     #
 #   webmaster@ltspiceusers.ch   #

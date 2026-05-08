@@ -2,7 +2,7 @@
 
 echo ""
 echo "#################################"
-echo "# dxf2gcode Install Script V5.0 #"
+echo "# dxf2gcode Install Script V5.1 #"
 echo "#   for Debian & Arch based OS  #"
 echo "#      by Daniel Luginbuehl     #"
 echo "#   webmaster@ltspiceusers.ch   #"
@@ -28,14 +28,113 @@ MAJOR=$(python3 -c "import sys; print(sys.version_info.major)")
 MINOR=$(python3 -c "import sys; print(sys.version_info.minor)")
 PYDIR="/usr/lib/python${MAJOR}.${MINOR}"
 
+TMPDIR=$(mktemp -d)
+
 RED=$'\033[0;31m'
 GREEN=$'\033[0;32m'
 NC=$'\033[0m'
+
 devinst=0
 
-install_debian() {
+download_zip() {
+    local url="$1"
+    local outfile="$2"
 
-    #### PIP error?
+    echo "${GREEN}Downloading: $url${NC}"
+    wget -O "$outfile" "$url"
+    unzip "$outfile" -d "$TMPDIR"
+    rm "$outfile"
+}
+
+download_source() {
+    if $sourceforge ; then
+        echo "Download from SOURCEFORGE"
+        download_zip "$DEV_URL" "$TMPDIR/dev.zip"
+    else
+        echo "Download from GITHUB"
+        download_zip "https://github.com/ltspicer/dxf2gcode/archive/master.zip" "$TMPDIR/master.zip"
+        echo "${GREEN}Downloading icon…${NC}"
+        wget -O ${HOME}/DXF2GCODE.ico https://raw.githubusercontent.com/ltspicer/dxf2gcode.linux.installer/main/DXF2GCODE.ico
+    fi
+
+    pfad=$(find_deepest_dxf2gcode_dir "$TMPDIR")
+    cd "$pfad" || { echo "Error: Could not change to directory $pfad"; exit 1; }
+
+    echo "${GREEN}Current folder: $(pwd)${NC}"
+}
+
+find_deepest_dxf2gcode_dir() {
+    local current_dir="$1"
+    while true; do
+        if find "$current_dir" -mindepth 1 -maxdepth 1 -type f | grep -q .; then
+            break
+        fi
+        local next_dir=$(find "$current_dir" -mindepth 1 -maxdepth 1 -type d -name "dxf2gcode*" | head -n 1)
+        [ -z "$next_dir" ] && break
+        current_dir="$next_dir"
+    done
+    echo "$current_dir"
+}
+
+select_source_dir() {
+    echo "If you want automatically download the developer version press y"
+    echo "If you want install your own version press n"
+
+    while true; do
+        read answer
+
+        # --- Automatic developer download ---
+        if echo "$answer" | grep -iq "^y" ; then
+            download_source
+            devinst=0
+            return
+        fi
+
+        # --- Manual path selection ---
+        if echo "$answer" | grep -iq "^n" ; then
+            echo
+            echo "${RED}Ok. First download the desired version of dxf2gcode into your home directory${NC} (developer version is needed for Python 3.10+)."
+            echo "Download links:"
+            echo
+            echo "${GREEN}https://sourceforge.net/p/dxf2gcode/sourcecode/ci/develop/tree${NC} (source directory)"
+            echo "or"
+            echo "${GREEN}https://github.com/ltspicer/dxf2gcode${NC}"
+            echo
+
+            while true; do
+                echo "Enter path to the dxf2gcode source in your home directory e.g. ${GREEN}Downloads/source ${RED}(without / at the beginning and end!) ${NC}"
+                read SRC
+
+                [ -z "$SRC" ] && SRC="_"
+                if echo "$SRC" | grep -iq "^q" ; then
+                    exit
+                fi
+
+                pfad="${HOME}/$SRC"
+
+                echo "${GREEN}I will work in the directory $pfad"
+                echo "Is that correct (y/n/q)? (q = Quit installer)${NC}"
+                read answer
+
+                if echo "$answer" | grep -iq "^q" ; then
+                    exit
+                fi
+
+                if echo "$answer" | grep -iq "^y" ; then
+                    if [ ! -d "$pfad" ]; then
+                        echo "${RED}This directory does not exist!${NC}"
+                    else
+                        cd "$pfad"
+                        devinst=1
+                        return
+                    fi
+                fi
+            done
+        fi
+    done
+}
+
+install_debian() {         # PIP error?
     piperror () {
         if [ "$error" -ne "0" ]; then
             echo "${RED}PIP error: $error ${NC}"
@@ -53,27 +152,6 @@ install_debian() {
             sleep 8
             exit 1
         fi
-    }
-
-    find_deepest_dxf2gcode_dir() {
-        local current_dir="$1"
-        while true; do
-            # Check whether the current directory contains files
-            if find "$current_dir" -mindepth 1 -maxdepth 1 -type f | grep -q .; then
-                break
-            fi
-
-            # Finding the first suitable subdirectory
-            local next_dir=$(find "$current_dir" -mindepth 1 -maxdepth 1 -type d -name "dxf2gcode*" | head -n 1)
-            if [ -z "$next_dir" ]; then
-                # No further subdirectories available
-                break
-            fi
-
-            # Change to the next suitable subdirectory
-            current_dir="$next_dir"
-        done
-        echo "$current_dir"
     }
 
     if ! hash $pyversion; then
@@ -162,101 +240,13 @@ install_debian() {
         done
     fi
 
-    if echo "$answer" | grep -iq "^1" ;then
-        if [ -d /tmp/dxf2gcode-latest ]; then
-            sudo rm -rf /tmp/dxf2gcode-latest
-        fi
+    if echo "$answer" | grep -iq "^1" ; then
+        download_zip "$SOURCE_URL" "$TMPDIR/dxf.zip"
+        pfad=$(find_deepest_dxf2gcode_dir "$TMPDIR")
+        cd "$pfad"
 
-        mkdir /tmp/dxf2gcode-latest
-        wget -O /tmp/dxf2gcode-latest/dxf2gcode-latest.zip ${SOURCE_URL}
-        unzip /tmp/dxf2gcode-latest/dxf2gcode-latest.zip -d /tmp/dxf2gcode-latest/
-        path=/tmp/dxf2gcode-latest/source
-        cd $path
     else
-        echo "If you want automatically download the developer version press y"
-        echo "If you want install your own version press n"
-
-        while true; do
-            read answer
-            if echo "$answer" | grep -iq "^y" ;then
-                if [ -d /tmp/dxf2gcode-latest ]; then
-                  sudo rm -rf /tmp/dxf2gcode-latest
-                fi
-                mkdir /tmp/dxf2gcode-latest
-
-    ####    Download from sourceforge
-                if $sourceforge ; then
-                    echo "Download from SOURCEFORGE"
-                    wget -O /tmp/dxf2gcode-latest/dxf2gcode-latest.zip ${DEV_URL}
-                    unzip /tmp/dxf2gcode-latest/dxf2gcode-latest.zip -d /tmp/dxf2gcode-latest/
-                    rm /tmp/dxf2gcode-latest/dxf2gcode-latest.zip
-                    # Start directory
-                    base_dir="/tmp/dxf2gcode-latest"
-
-                    # Call the function and change to the lowest directory
-                    deepest_dir=$(find_deepest_dxf2gcode_dir "$base_dir")
-                    cd "$deepest_dir" || { echo "Error: Could not change to directory $deepest_dir"; exit 1; }
-
-                    # Output of the current directory
-                    echo "Current folder: $(pwd)"
-
-                    path=$PWD
-                else
-    ####    Download from github
-                    echo "Download from GITHUB"
-                    wget -O /tmp/dxf2gcode-latest/master.zip https://github.com/ltspicer/dxf2gcode/archive/master.zip
-                    unzip /tmp/dxf2gcode-latest/master.zip -d /tmp/dxf2gcode-latest/
-                    rm /tmp/dxf2gcode-latest/master.zip
-                    path=/tmp/dxf2gcode-latest/dxf2gcode-main
-                    cd $path
-
-                    # Output of the current directory
-                    echo "${GREEN}Current folder: $(pwd)${NC}"
-
-                    wget -O ${HOME}/DXF2GCODE.ico https://raw.githubusercontent.com/ltspicer/dxf2gcode.linux.installer/main/DXF2GCODE.ico
-                fi
-
-                devinst=0
-                break
-            fi
-            if echo "$answer" | grep -iq "^n" ;then
-                echo
-                echo "${RED}Ok. First download the desired version of dxf2gcode into your home directory${NC} (developer version is needed for Python 3.10+)."
-                echo "Download links:"
-                echo
-                echo "${GREEN}https://sourceforge.net/p/dxf2gcode/sourcecode/ci/develop/tree${NC} (source directory)"
-                echo "or"
-                echo "${GREEN}https://github.com/ltspicer/dxf2gcode${NC}"
-                echo
-                while true; do
-                    echo "Enter path to the dxf2gcode source in your home directory e.g. ${GREEN}Downloads/source ${RED}(without / at the beginning and end!) ${NC}"
-                    read SRC
-                    if [ -z "$SRC" ] ;then
-                        SRC="_"
-                    fi
-                    if echo "$SRC" | grep -iq "^q" ;then
-                        exit
-                    fi
-                    path=${HOME}/$SRC
-                    echo "${GREEN}I will work in the directory "$path
-                    echo "Is that correct (y/n/q)? (q = Quit installer)${NC}"
-                    read answer
-                    if echo "$answer" | grep -iq "^q" ;then
-                        exit
-                    fi
-                    if echo "$answer" | grep -iq "^y" ;then
-                        if [ ! -d $path ]; then
-                            echo "${RED}This directory does not exist!${NC}"
-                        else
-                            cd $path
-                            break
-                        fi
-                    fi
-                done
-                devinst=1
-                break
-            fi
-        done
+        select_source_dir
     fi
 
     echo ""
@@ -268,7 +258,7 @@ install_debian() {
             break
         fi
         if echo "$answer" | grep -iq "^n" ;then
-            sudo rm -rf /tmp/dxf2gcode-latest
+            sudo rm -rf $TMPDIR
             exit
         fi
     done
@@ -353,19 +343,8 @@ install_debian() {
     sudo mkdir -p dxf2gcode
     cd dxf2gcode
     sudo mkdir -p i18n
-    sudo cp $path/i18n/*.qm /usr/share/dxf2gcode/i18n
+    sudo cp $pfad/i18n/*.qm /usr/share/dxf2gcode/i18n
     sudo chmod -R o+r /usr/share/dxf2gcode/i18n
-
-    if [ $devinst -eq 1 ] ;then
-        echo
-        echo "Should I delete the "$path" directory (y/N)?"
-        read answer
-        if echo "$answer" | grep -iq "^y" ;then
-            sudo rm -rf $path
-        fi
-    else
-        sudo rm -rf /tmp/dxf2gcode-latest
-    fi
 }
 
 install_arch() {
@@ -381,9 +360,9 @@ install_arch() {
     SITEPKG=""
 
     # Select the first existing path
-    for path in "${CANDIDATES[@]}"; do
-        if [ -d "$path" ]; then
-            SITEPKG="$path"
+    for pkg in "${CANDIDATES[@]}"; do
+        if [ -d "$pkg" ]; then
+            SITEPKG="$pkg"
             break
         fi
     done
@@ -410,25 +389,24 @@ install_arch() {
         dos2unix \
         python-configobj
 
-    # Download stable or dev
-    #echo "1 = Stable Version"
-    #echo "2 = Developer Version"
-    #read -p "Selection: " CHOICE
-    CHOICE=2 # Select Developer Version
-
-    TMPDIR=$(mktemp -d)
     echo "tmpdir: $TMPDIR"
 
-    if [[ "$CHOICE" == "1" ]]; then
-        wget -O "$TMPDIR/dxf.zip" "$SOURCE_URL"
-    else
-        wget -O "$TMPDIR/dxf.zip" "$DEV_URL"
+    select_source_dir
+
+    if [ -z "$pfad" ] || [ ! -d "$pfad" ]; then
+        echo "${RED}Error: Source directory not found!${NC}"
+        exit 1
     fi
 
-    unzip "$TMPDIR/dxf.zip" -d "$TMPDIR"
-    SRC_DIR=$(find "$TMPDIR" -type d -name "dxf2gcode*" | head -n 1)
+    cd "$pfad"
 
-    cd "$SRC_DIR"
+    chmod +x make_tr.py
+    chmod +x make_py_uic.py
+
+    dos2unix make_tr.py
+    ./make_tr.py
+    dos2unix make_py_uic.py
+    ./make_py_uic.py
 
     echo "Patch Build-System for Python ${PYVER} ..."
 
@@ -448,10 +426,10 @@ install_arch() {
     echo "Install dxf2gcode permanently to $TARGET ..."
     sudo rm -rf "$TARGET"
     sudo mkdir -p "$TARGET"
-    sudo cp -r "$SRC_DIR"/* "$TARGET"
-
+    sudo cp -r "$pfad"/* "$TARGET"
+    sudo chmod -R a+r "$TARGET"
+    sudo find "$TARGET" -type d -exec chmod a+rx {} \;
     echo "Create launcher /usr/local/bin/dxf2gcode ..."
-
     sudo tee /usr/local/bin/dxf2gcode >/dev/null << EOF
 #!/bin/bash
 python3 "$TARGET/dxf2gcode.py" "\$@"
@@ -490,6 +468,15 @@ ICON_FILE="$HOME/DXF2GCODE.ico"
 if [ ! -f "$ICON_FILE" ]; then
     echo "${GREEN}Downloading icon…${NC}"
     wget -O "$ICON_FILE" "$ICON_URL"
+fi
+
+if [ $devinst -eq 1 ] ;then
+    echo
+    echo "Should I delete the "$pfad" directory (y/N)?"
+    read answer
+    if echo "$answer" | grep -iq "^y" ;then
+        sudo rm -rf $pfad
+    fi
 fi
 
 echo
