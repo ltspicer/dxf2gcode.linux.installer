@@ -8,9 +8,10 @@
 #################################
 ```
 
+Only for Debian (e.g. Ubuntu, Mint) & Arch (e.g. CachyOS) based OSes!
+
 Enter in the console:
 
-For Debian (e.g. Ubuntu, Mint) & Arch (e.g. CachyOS) based OSes:<br>
 **cd ~/Downloads**<br>
 **wget https://raw.github.com/ltspicer/dxf2gcode.linux.installer/main/linux.installer.sh**<br>
 **chmod a+x linux.installer.sh**<br>
